@@ -56,7 +56,7 @@ using NAudio.Wave;
                 var song = new Song
                 {
                     SongTitle = System.IO.Path.GetFileNameWithoutExtension(filePath),
-                    ArtistName = "Unknown Artist" // Replace with actual artist name or retrieve from metadata
+                    ArtistName = "Unknown Artist"
                 };
 
                 await _songService.UploadSongAsync(song, filePath);
@@ -79,15 +79,13 @@ using NAudio.Wave;
 
                         using (var fileStream = System.IO.File.Create(tempFilePath))
                         {
-                            await stream.CopyToAsync(fileStream); // Ensure async copy to prevent blocking UI thread
+                            await stream.CopyToAsync(fileStream); 
                         }
 
-                        // Stop previous playback
                         _wavePlayer?.Stop();
                         _wavePlayer?.Dispose();
                         _audioFileReader?.Dispose();
 
-                        // Play the temporary file
                         _wavePlayer = new WaveOutEvent();
                         _audioFileReader = new AudioFileReader(tempFilePath);
                         _wavePlayer.Init(_audioFileReader);
