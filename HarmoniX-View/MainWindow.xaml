@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <StackPanel Margin="20">
+            <Button Name="BrowseButton" Content="Browse and Upload Song" Width="200" Height="30" Click="BrowseButton_Click" />
+            <ListBox Name="SongsListBox" Width="400" Height="200" Margin="0,20,0,0" DisplayMemberPath="SongMedia" />
+            <Button Name="PlayButton" Content="Play Selected Song" Width="200" Height="30" Click="PlayButton_Click" />
+        </StackPanel>
     </Grid>
 </Window>

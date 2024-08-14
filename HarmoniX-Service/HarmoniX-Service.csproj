@@ -8,7 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HarmoniX-Repository\HarmoniX-Repository.csproj" />
+    <Compile Remove="Services\S3Service.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HarmoniX-Controller\HarmoniX-Controller.csproj">
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\HarmoniX-Repository\HarmoniX-Repository.csproj">
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

@@ -362,3 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /HarmoniX-View/appsettings.json
+/HarmoniX-Service/Services/S3Service.cs
+/HarmoniX-View/s3bucketkeys.json
