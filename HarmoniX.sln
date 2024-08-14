@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarmoniX-View", "HarmoniX-View\HarmoniX-View.csproj", "{D8F2885E-115C-4873-A32D-E161A8F49E38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HarmoniX-View", "HarmoniX-View\HarmoniX-View.csproj", "{D8F2885E-115C-4873-A32D-E161A8F49E38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarmoniX-Repository", "HarmoniX-Repository\HarmoniX-Repository.csproj", "{80EE883A-0F50-4BF9-AFAD-CD1ED0522925}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarmoniX-Service", "HarmoniX-Service\HarmoniX-Service.csproj", "{13F47677-F161-40E0-8DDA-856EBDEE46ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{D8F2885E-115C-4873-A32D-E161A8F49E38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8F2885E-115C-4873-A32D-E161A8F49E38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8F2885E-115C-4873-A32D-E161A8F49E38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80EE883A-0F50-4BF9-AFAD-CD1ED0522925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80EE883A-0F50-4BF9-AFAD-CD1ED0522925}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80EE883A-0F50-4BF9-AFAD-CD1ED0522925}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80EE883A-0F50-4BF9-AFAD-CD1ED0522925}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13F47677-F161-40E0-8DDA-856EBDEE46ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13F47677-F161-40E0-8DDA-856EBDEE46ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13F47677-F161-40E0-8DDA-856EBDEE46ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13F47677-F161-40E0-8DDA-856EBDEE46ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
