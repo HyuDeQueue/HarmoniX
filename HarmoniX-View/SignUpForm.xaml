@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HarmoniX_View"
         mc:Ignorable="d"
+        xmlns:mp="http://schemas.mpcoding.com/mpcoding/wpf/loadinganimation"
         Title="SignUpForm" Height="550" Width="800"
         WindowStyle="None"
         ResizeMode="NoResize"
@@ -244,7 +245,8 @@
                             Foreground="White"
                             FontSize="12"
                             FontFamily="Montserrat"
-                            Cursor="Hand"                           
+                            Cursor="Hand"     
+                            Click="btnSignUp_Click"
                             Margin="0,50,0,0">
                         <Button.Style>
                             <Style TargetType="Button">
@@ -296,6 +298,14 @@
                         </Button>
                     </StackPanel>
                 </StackPanel>
+                <mp:WaveAnimation x:Name="waveAnimation" Width="100" Height="19" Duration="0:0:2.0" Margin="0,389,0,0" Grid.Row="1" VerticalAlignment="Top" Foreground="{x:Null}" Visibility="Hidden" >
+                    <mp:WaveAnimation.Color>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF980B0B" Offset="1"/>
+                            <GradientStop Color="#FF9B2AD6"/>
+                        </LinearGradientBrush>
+                    </mp:WaveAnimation.Color>
+                </mp:WaveAnimation>
             </Grid>
         </Border>
     </Border>

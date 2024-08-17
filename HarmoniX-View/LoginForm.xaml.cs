@@ -49,16 +49,13 @@ namespace HarmoniX_View
 
         private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            // Disable the login button and text fields
             btnLogin.IsEnabled = false;
             btnLogin.Content = "";
             txtUser.IsEnabled = false;
             txtPass.IsEnabled = false;
 
-            // Show the WaveAnimation
             waveAnimation.Visibility = Visibility.Visible;
 
-            // Perform the login asynchronously
             string username = txtUser.Text;
             string password = txtPass.Password;
 
