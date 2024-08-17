@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HarmoniX_Repository.Models;
+using HarmoniX_Service.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +26,8 @@ namespace HarmoniX_View
             InitializeComponent();
         }
 
+        private readonly AccountService _accountService = new();
+
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -41,6 +45,54 @@ namespace HarmoniX_View
             SignUpForm signUpForm = new SignUpForm();
             signUpForm.Show();
             this.Close();
+        }
+
+        private async void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            // Disable the login button and text fields
+            btnLogin.IsEnabled = false;
+            btnLogin.Content = "";
+            txtUser.IsEnabled = false;
+            txtPass.IsEnabled = false;
+
+            // Show the WaveAnimation
+            waveAnimation.Visibility = Visibility.Visible;
+
+            // Perform the login asynchronously
+            string username = txtUser.Text;
+            string password = txtPass.Password;
+
+            Account account = new Account
+            {
+                Username = username,
+                Password = password
+            };
+
+            Account loggedInAccount = null;
+            try
+            {
+                loggedInAccount = await Task.Run(() => _accountService.LoginAsync(account));
+            }
+            finally
+            {
+                waveAnimation.Visibility = Visibility.Hidden;
+
+                btnLogin.IsEnabled = true;
+                btnLogin.Content = "LOGIN";
+                txtUser.IsEnabled = true;
+                txtPass.IsEnabled = true;
+            }
+
+            if (loggedInAccount != null)
+            {
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Invalid username or password.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

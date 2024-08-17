@@ -9,7 +9,14 @@
     <Grid>
         <StackPanel Margin="20">
             <Button Name="BrowseButton" Content="Browse and Upload Song" Width="200" Height="30" Click="BrowseButton_Click" />
-            <ListBox Name="SongsListBox" Width="400" Height="200" Margin="0,20,0,0" DisplayMemberPath="SongMedia" />
+            <DataGrid Name="SongsDataGrid" Width="400" Height="200" Margin="0,20,0,0" AutoGenerateColumns="False"  >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding SongId}" />
+                    <DataGridTextColumn Header="Title" Binding="{Binding SongTitle}" />
+                    <DataGridTextColumn Header="Artist" Binding="{Binding ArtistName}" />
+                    <DataGridTextColumn Header="Media" Binding="{Binding SongMedia}" />
+                </DataGrid.Columns>
+            </DataGrid>
             <Button Name="PlayButton" Content="Play Selected Song" Width="200" Height="30" Click="PlayButton_Click" />
         </StackPanel>
     </Grid>

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HarmoniX_View"
         mc:Ignorable="d"
+        xmlns:mp="http://schemas.mpcoding.com/mpcoding/wpf/loadinganimation"
         Title="LoginForm" Height="550" Width="800" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" MouseDown="Window_MouseDown" Background="Transparent" AllowsTransparency="True">
     <Border CornerRadius="12">
         <Border.Background>
@@ -181,7 +182,8 @@
                             FontSize="12"
                             FontFamily="Montserrat"
                             Cursor="Hand"                           
-                            Margin="0,50,0,0">
+                            Margin="0,50,0,0"
+                            Click="btnLogin_Click">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="#462AD8"/>
@@ -202,7 +204,7 @@
                     </Button>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
                         <TextBlock Text="Don't have an account?" Foreground="DarkGray" FontSize="12" FontWeight="Medium" FontFamily="Montserrat"/>
-                        <Button x:Name="btnSignUp" Content="Sign up" Foreground="White" FontSize="12" FontFamily="Montserrat" Cursor="Hand" Background="Transparent" BorderThickness="0" Margin="8,0,0,0" Click="btnSignUp_Click">   
+                        <Button x:Name="btnSignUp" Content="Sign up" Foreground="White" FontSize="12" FontFamily="Montserrat" Cursor="Hand" Background="Transparent" BorderThickness="0" Margin="8,0,0,0" Click="btnSignUp_Click">
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Foreground" Value="#FF2D549E"/>
@@ -217,8 +219,15 @@
                         </Button>
                     </StackPanel>
                 </StackPanel>
+                <mp:WaveAnimation x:Name="waveAnimation" Width="100" Height="19" Duration="0:0:2.0" Margin="0,389,0,0" Grid.Row="1" VerticalAlignment="Top" Foreground="{x:Null}" Visibility="Hidden" >
+                    <mp:WaveAnimation.Color>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF980B0B" Offset="1"/>
+                            <GradientStop Color="#FF9B2AD6"/>
+                        </LinearGradientBrush>
+                    </mp:WaveAnimation.Color>
+                </mp:WaveAnimation>
             </Grid>
         </Border>
-
     </Border>
 </Window>

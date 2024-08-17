@@ -1,26 +1,12 @@
-﻿    using HarmoniX_Repository.Models;
-    using HarmoniX_Service.Services;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Win32;
-    using System.Text;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Documents;
-    using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-    using System.Windows.Navigation;
-    using System.Windows.Shapes;
-    using System.IO;
+﻿using HarmoniX_Repository.Models;
+using HarmoniX_Service.Services;
+using Microsoft.Win32;
+using System.Windows;
+using System.Windows.Input;
 using NAudio.Wave;
 
-
-    namespace HarmoniX_View
-    {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+namespace HarmoniX_View
+{
     public partial class MainWindow : Window
     {
         private IWavePlayer _wavePlayer;
@@ -36,10 +22,19 @@ using NAudio.Wave;
             LoadSongs();
         }
 
+        // Add the Window_MouseDown method
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+
         private async void LoadSongs()
         {
             var songs = await _songService.GetAllSongsAsync();
-            SongsListBox.ItemsSource = songs;
+            SongsDataGrid.ItemsSource = songs;
         }
 
         private async void BrowseButton_Click(object sender, RoutedEventArgs e)
@@ -69,7 +64,7 @@ using NAudio.Wave;
         {
             try
             {
-                if (SongsListBox.SelectedItem is Song selectedSong)
+                if (SongsDataGrid.SelectedItem is Song selectedSong)
                 {
                     var stream = await _songService.GetSongStreamAsync(selectedSong.SongMedia);
 
@@ -79,7 +74,7 @@ using NAudio.Wave;
 
                         using (var fileStream = System.IO.File.Create(tempFilePath))
                         {
-                            await stream.CopyToAsync(fileStream); 
+                            await stream.CopyToAsync(fileStream);
                         }
 
                         _wavePlayer?.Stop();

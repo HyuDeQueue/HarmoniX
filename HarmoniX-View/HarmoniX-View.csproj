@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
+    <PackageReference Include="MpCoding.WPF.LoadingAnimations" Version="1.0.2" />
     <PackageReference Include="NAudio" Version="2.2.1" />
   </ItemGroup>
 
