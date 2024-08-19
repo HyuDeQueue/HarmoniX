@@ -1,4 +1,5 @@
 ﻿using HarmoniX_Repository.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,11 @@ namespace HarmoniX_Repository.Repositories
     public class CategoryRepository
     {
         private HarmonixDbContext _context;
+
+        public async Task<List<Category>> GetAll()
+        {
+            _context = new();
+            return await _context.Categories.ToListAsync();
+        }
     }
 }

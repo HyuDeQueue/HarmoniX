@@ -6,18 +6,176 @@
         xmlns:local="clr-namespace:HarmoniX_View"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <StackPanel Margin="20">
-            <Button Name="BrowseButton" Content="Browse and Upload Song" Width="200" Height="30" Click="BrowseButton_Click" />
-            <DataGrid Name="SongsDataGrid" Width="400" Height="200" Margin="0,20,0,0" AutoGenerateColumns="False"  >
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding SongId}" />
-                    <DataGridTextColumn Header="Title" Binding="{Binding SongTitle}" />
-                    <DataGridTextColumn Header="Artist" Binding="{Binding ArtistName}" />
-                    <DataGridTextColumn Header="Media" Binding="{Binding SongMedia}" />
-                </DataGrid.Columns>
-            </DataGrid>
-            <Button Name="PlayButton" Content="Play Selected Song" Width="200" Height="30" Click="PlayButton_Click" />
-        </StackPanel>
-    </Grid>
+    <Window.Resources>
+        <!-- SubMenuButtonStyle -->
+        <Style x:Key="SubMenuButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#1B1448"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Montserrat"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#462AD8"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Border CornerRadius="12">
+        <Border.Background>
+            <ImageBrush ImageSource="/assets/back-image.jpg"
+                        Stretch="None"/>
+        </Border.Background>
+        <Border CornerRadius="10"                    
+                BorderThickness="2"
+                Opacity="0.95">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#462AD8" Offset="0"/>
+                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#8A16C1" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#1B1448" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <StackPanel Margin="20">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <!-- Song Toggle Button -->
+                        <ToggleButton x:Name="btnSong" Content="Song" Width="100" Height="30" FontFamily="Montserrat" FontSize="12" Foreground="White" Background="#462AD8" BorderThickness="0" Margin="0,0,10,0" VerticalAlignment="Top">
+                            <ToggleButton.Style>
+                                <Style TargetType="ToggleButton">
+                                    <Setter Property="Background" Value="#462AD8"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#28AEED"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                        <Popup PlacementTarget="{Binding ElementName=btnSong}" IsOpen="{Binding IsChecked, ElementName=btnSong}" StaysOpen="False">
+                            <StackPanel Background="#1B1448" Margin="0,5,0,0">
+                                <Button Content="Your Song" Style="{StaticResource SubMenuButtonStyle}"/>
+                                <Button Content="All Songs" Style="{StaticResource SubMenuButtonStyle}"/>
+                            </StackPanel>
+                        </Popup>
+
+                        <!-- Playlist Toggle Button -->
+                        <Popup PlacementTarget="{Binding ElementName=btnPlaylist}" IsOpen="{Binding IsChecked, ElementName=btnPlaylist}" StaysOpen="False">
+                            <StackPanel Background="#1B1448" Margin="0,5,0,0">
+                                <Button Content="Your Playlist" Style="{StaticResource SubMenuButtonStyle}"/>
+                                <Button Content="All Playlists" Style="{StaticResource SubMenuButtonStyle}"/>
+                                <Button x:Name="btnCreatePlaylist" Content="Create Playlist" Style="{StaticResource SubMenuButtonStyle}" Click="btnCreatePlaylist_Click"/>
+                            </StackPanel>
+                        </Popup>
+                        <ToggleButton x:Name="btnPlaylist" Content="Playlist" Width="100" Height="30" FontFamily="Montserrat" FontSize="12" Foreground="White" Background="#462AD8" BorderThickness="0">
+                            <ToggleButton.Style>
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="Background" Value="#462AD8"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#28AEED"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                    </StackPanel>
+
+                    <!-- Existing Buttons -->
+                    <Button Name="BrowseButton" Content="Browse and Upload Song" Width="200" Height="56" Click="BrowseButton_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#462AD8"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontSize" Value="12"/>
+                                <Setter Property="FontFamily" Value="Montserrat"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#28AEED"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="150" Height="40" CornerRadius="20" Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <!-- Your Queue and Playlist Section -->
+                    <Grid Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <DataGrid x:Name="QueueDataGrid" Grid.Column="0" Height="200" AutoGenerateColumns="False" Margin="-15,0,5,0">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
+                                <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" />
+                                <DataGridTextColumn Header="Media" Binding="{Binding Media}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <DataGrid x:Name="SongsDataGrid" Grid.Column="1" Width="272" Height="200" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding SongId}" />
+                                <DataGridTextColumn Header="Title" Binding="{Binding SongTitle}" />
+                                <DataGridTextColumn Header="Artist" Binding="{Binding ArtistName}" />
+                                <DataGridTextColumn Header="Media" Binding="{Binding SongMedia}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <DataGrid x:Name="PlaylistDataGrid" Grid.Column="2" Height="200" AutoGenerateColumns="False" Margin="10,0,-12,0">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Playlist Name" Binding="{Binding PlaylistName}" />
+                                <DataGridTextColumn Header="Description" Binding="{Binding PlaylistDescription}" />
+                                <DataGridTextColumn Header="Account ID" Binding="{Binding AccountId}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <Button x:Name="PlayButton" Content="Play Selected Song" Width="200" Height="57" Click="PlayButton_Click">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#462AD8"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontSize" Value="12"/>
+                                <Setter Property="FontFamily" Value="Montserrat"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#28AEED"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Width="150" Height="40" CornerRadius="20" Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Border>
 </Window>

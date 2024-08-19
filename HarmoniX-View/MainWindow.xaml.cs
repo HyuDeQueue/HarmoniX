@@ -9,9 +9,11 @@ namespace HarmoniX_View
 {
     public partial class MainWindow : Window
     {
+        private readonly Account _account;
         private IWavePlayer _wavePlayer;
         private AudioFileReader _audioFileReader;
         private SongService _songService;
+        public event Action OnSongDetailClosed;
 
         public MainWindow()
         {
@@ -39,25 +41,8 @@ namespace HarmoniX_View
 
         private async void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "MP3 files (*.mp3)|*.mp3",
-                Title = "Select a song to upload"
-            };
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                string filePath = openFileDialog.FileName;
-                var song = new Song
-                {
-                    SongTitle = System.IO.Path.GetFileNameWithoutExtension(filePath),
-                    ArtistName = "Unknown Artist"
-                };
-
-                await _songService.UploadSongAsync(song, filePath);
-                MessageBox.Show("Song uploaded successfully!");
-                LoadSongs();
-            }
+            AddSongDetail detail = new AddSongDetail(_account);
+            detail.ShowDialog();
         }
 
         private async void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -100,6 +85,12 @@ namespace HarmoniX_View
             {
                 MessageBox.Show($"An error occurred while trying to play the song: {ex.Message}");
             }
+        }
+
+        private void btnCreatePlaylist_Click(object sender, RoutedEventArgs e)
+        {
+            CreatePlaylist createPlaylist = new CreatePlaylist();
+            createPlaylist.Show();
         }
     }
 }
