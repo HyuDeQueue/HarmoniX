@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HarmoniX_View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="526" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" MouseDown="Window_MouseDown" Background="Transparent" AllowsTransparency="True">
     <Window.Resources>
         <!-- SubMenuButtonStyle -->
         <Style x:Key="SubMenuButtonStyle" TargetType="Button">
@@ -23,28 +23,30 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <Border CornerRadius="12">
-        <Border.Background>
-            <ImageBrush ImageSource="/assets/back-image.jpg"
-                        Stretch="None"/>
-        </Border.Background>
-        <Border CornerRadius="10"                    
-                BorderThickness="2"
-                Opacity="0.95">
-            <Border.BorderBrush>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#462AD8" Offset="0"/>
-                    <GradientStop Color="#DA34AE" Offset="0.75"/>
-                    <GradientStop Color="#8A16C1" Offset="1"/>
-                </LinearGradientBrush>
-            </Border.BorderBrush>
+
+    <Grid Margin="0,0,10,-16">
+        <Border CornerRadius="12">
             <Border.Background>
-                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
-                    <GradientStop Color="#060531" Offset="0"/>
-                    <GradientStop Color="#1B1448" Offset="1"/>
-                </LinearGradientBrush>
+                <ImageBrush ImageSource="/assets/back-image.jpg"
+                            Stretch="None"/>
             </Border.Background>
-            <Grid>
+            <Border CornerRadius="10"                    
+                    BorderThickness="2"
+                    Opacity="0.95" Margin="0,0,-14,0">
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#462AD8" Offset="0"/>
+                        <GradientStop Color="#DA34AE" Offset="0.75"/>
+                        <GradientStop Color="#8A16C1" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                        <GradientStop Color="#060531" Offset="0"/>
+                        <GradientStop Color="#1B1448" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+
                 <StackPanel Margin="20">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <!-- Song Toggle Button -->
@@ -92,11 +94,9 @@
                             </ToggleButton.Style>
                         </ToggleButton>
                     </StackPanel>
-
-                    <!-- Existing Buttons -->
-                    <Button Name="BrowseButton" Content="Browse and Upload Song" Width="200" Height="56" Click="BrowseButton_Click">
+                    <Button x:Name="BrowseButton" Content="Browse and Upload Song" Width="200" Height="56" Click="BrowseButton_Click">
                         <Button.Style>
-                            <Style TargetType="Button">
+                            <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="#462AD8"/>
                                 <Setter Property="Foreground" Value="White"/>
                                 <Setter Property="FontSize" Value="12"/>
@@ -110,13 +110,15 @@
                             </Style>
                         </Button.Style>
                         <Button.Template>
-                            <ControlTemplate TargetType="Button">
+                            <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Width="150" Height="40" CornerRadius="20" Background="{TemplateBinding Background}">
                                     <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
+
+                    <!-- Existing Buttons -->
 
                     <!-- Your Queue and Playlist Section -->
                     <Grid Margin="0,20,0,0">
@@ -126,6 +128,8 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
+
+
                         <DataGrid x:Name="QueueDataGrid" Grid.Column="0" Height="200" AutoGenerateColumns="False" Margin="-15,0,5,0">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
@@ -133,6 +137,7 @@
                                 <DataGridTextColumn Header="Media" Binding="{Binding Media}" />
                             </DataGrid.Columns>
                         </DataGrid>
+
 
                         <DataGrid x:Name="SongsDataGrid" Grid.Column="1" Width="272" Height="200" AutoGenerateColumns="False">
                             <DataGrid.Columns>
@@ -175,7 +180,88 @@
                         </Button.Template>
                     </Button>
                 </StackPanel>
-            </Grid>
+            </Border>
         </Border>
-    </Border>
+        <TextBox HorizontalAlignment="Left" Margin="21,332,0,0" TextWrapping="Wrap" Text="Now Playing: " VerticalAlignment="Top" Width="222" IsEnabled="False" Height="21" Background="Transparent" Foreground="White" BorderThickness="0"/>
+        <TextBox x:Name="CurrentTimeTextBlock" Text="00:00" HorizontalAlignment="Left" Margin="21,353,0,0" Foreground="White" Background="Transparent" VerticalAlignment="Top" Width="34"/>
+        <ProgressBar HorizontalAlignment="Left" Height="7" Margin="60,358,0,0" VerticalAlignment="Top" Width="152"/>
+        <TextBox x:Name="CurrentTimeTextBlock_Copy" Text="00:00" HorizontalAlignment="Left" Margin="217,353,0,0" Foreground="White" Background="Transparent" VerticalAlignment="Top" Width="34"/>
+        <TextBlock HorizontalAlignment="Left" Margin="103,375,0,0" Foreground="White" Text="Song - Artist" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Background="Transparent" Foreground="White" Margin="47,397,0,0" TextWrapping="Wrap" Text="Volumn" VerticalAlignment="Top" Width="47"/>
+        <Slider HorizontalAlignment="Left" Margin="103,397,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="PlayPauseButton" HorizontalAlignment="Left" Margin="52,420,0,0" VerticalAlignment="Top" Height="32" Width="36">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse Fill="Transparent" Width="50" Height="50"/>
+                        <TextBlock x:Name="PlayPauseTextBlock" Text="▶️" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button HorizontalAlignment="Left" Margin="118,420,0,0" VerticalAlignment="Top" Height="32" Width="36">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse Fill="Transparent" Width="50" Height="50"/>
+                        <TextBlock Text="⏭️" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button HorizontalAlignment="Left" Margin="187,420,0,0" VerticalAlignment="Top" Height="32" Width="36">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse Fill="Transparent" Width="50" Height="50"/>
+                        <TextBlock Text="🔀" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Content="X" HorizontalAlignment="Left" Margin="752,21,0,0" VerticalAlignment="Top" x:Name="btnClose" BorderThickness="0" Foreground="White" FontSize="16" FontFamily="Montserrat" Cursor="Hand" Click="btnClose_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#DA34AE"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#C62DAE"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="18" Height="18"
+                CornerRadius="9"
+                Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center"
+                              HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="btnMinimize" BorderThickness="0" Content="-" Foreground="White" FontSize="16" FontFamily="Montserrat" Cursor="Hand" Click="btnMinimize_Click" HorizontalAlignment="Left" Margin="717,21,0,0" VerticalAlignment="Top">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#28AEED"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#278BEF"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="18" Height="18"
+                CornerRadius="9"
+                Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center"
+                              HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
 </Window>
