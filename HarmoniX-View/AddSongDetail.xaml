@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HarmoniX_View"
         mc:Ignorable="d"
-        Title="AddSongDetail" Height="710" Width="1145" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" WindowStyle="None">
+        Title="AddSongDetail" Height="710" Width="1145" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Window.Resources>
         <!-- SubMenuButtonStyle -->
         <Style x:Key="SubMenuButtonStyle" TargetType="Button">

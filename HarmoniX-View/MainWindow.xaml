@@ -130,13 +130,13 @@
 
 
 
-                        <DataGrid x:Name="QueueDataGrid" ItemsSource="{Binding SongQueue}" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid x:Name="QueueDataGrid" Grid.Column="0" Height="200" AutoGenerateColumns="False" Margin="-15,0,5,0">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Title" Binding="{Binding SongTitle}" />
-                                <DataGridTextColumn Header="Artist" Binding="{Binding ArtistName}" />
+                                <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
+                                <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" />
+                                <DataGridTextColumn Header="Media" Binding="{Binding Media}" />
                             </DataGrid.Columns>
                         </DataGrid>
-
 
 
                         <DataGrid x:Name="SongsDataGrid" Grid.Column="1" Width="272" Height="200" AutoGenerateColumns="False" IsReadOnly="true">
@@ -144,7 +144,7 @@
                                 <DataGridTemplateColumn Header="Queue">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Content="+" Width="25" Height="25" Click="AddToQueueButton_Click" />
+                                            <Button Content="+" Width="25" Height="25" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -191,19 +191,19 @@
                 </StackPanel>
             </Border>
         </Border>
-        <TextBlock Name="NowPlayingTextBlock" HorizontalAlignment="Left" Margin="21,332,0,0" TextWrapping="Wrap" Text="Now Playing: " VerticalAlignment="Top" Width="222" IsEnabled="False" Height="21" Background="Transparent" Foreground="White" />
-        <TextBlock x:Name="CurrentTimeTextBlock" Text="00:00" HorizontalAlignment="Left" Margin="21,353,0,0" Foreground="White" Background="Transparent" VerticalAlignment="Top" Width="34"/>
-        <ProgressBar Name="SongProgressBar" HorizontalAlignment="Left" Height="7" Margin="60,358,0,0" VerticalAlignment="Top" Width="152"/>
-        <TextBlock x:Name="TotalTimeTextBlock" Text="00:00" HorizontalAlignment="Left" Margin="217,353,0,0" Foreground="White" Background="Transparent" VerticalAlignment="Top" Width="34"/>
-        <TextBlock x:Name="SongInfoTextBlock" HorizontalAlignment="Left" Margin="60,370,0,0" Foreground="White" Text="Song - Artist" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Background="Transparent" Foreground="White" Margin="47,397,0,0" TextWrapping="Wrap" Text="Volume" VerticalAlignment="Top" Width="47"/>
+        <TextBox HorizontalAlignment="Left" Margin="21,332,0,0" TextWrapping="Wrap" Text="Now Playing: " VerticalAlignment="Top" Width="222" IsEnabled="False" Height="21" Background="Transparent" Foreground="White" BorderThickness="0"/>
+        <TextBox x:Name="CurrentTimeTextBlock" Text="00:00" HorizontalAlignment="Left" Margin="21,353,0,0" Foreground="White" Background="Transparent" VerticalAlignment="Top" Width="34"/>
+        <ProgressBar HorizontalAlignment="Left" Height="7" Margin="60,358,0,0" VerticalAlignment="Top" Width="152"/>
+        <TextBox x:Name="CurrentTimeTextBlock_Copy" Text="00:00" HorizontalAlignment="Left" Margin="217,353,0,0" Foreground="White" Background="Transparent" VerticalAlignment="Top" Width="34"/>
+        <TextBlock HorizontalAlignment="Left" Margin="103,375,0,0" Foreground="White" Text="Song - Artist" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Background="Transparent" Foreground="White" Margin="47,397,0,0" TextWrapping="Wrap" Text="Volumn" VerticalAlignment="Top" Width="47"/>
         <Slider HorizontalAlignment="Left" Margin="103,397,0,0" VerticalAlignment="Top" Width="120" Value="5" />
-        <Button x:Name="PlayPauseButton" HorizontalAlignment="Left" Margin="52,420,0,0" VerticalAlignment="Top" Height="32" Width="36" Click="PlayPauseButton_Click" >
+        <Button x:Name="PlayPauseButton" HorizontalAlignment="Left" Margin="52,420,0,0" VerticalAlignment="Top" Height="32" Width="36">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
                         <Ellipse Fill="Transparent" Width="50" Height="50"/>
-                        <TextBlock x:Name="PlayPauseTextBlock" Text="⏸️" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+                        <TextBlock x:Name="PlayPauseTextBlock" Text="▶️" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
                     </Grid>
                 </ControlTemplate>
             </Button.Template>
