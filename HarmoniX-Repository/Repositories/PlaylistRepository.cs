@@ -16,7 +16,7 @@ namespace HarmoniX_Repository.Repositories
         public async Task Create(Playlist playlist)
         {
             _context = new HarmonixDbContext();
-            _context.Playlists.Add(playlist);
+            await _context.Playlists.AddAsync(playlist);
             await _context.SaveChangesAsync();
         }
 

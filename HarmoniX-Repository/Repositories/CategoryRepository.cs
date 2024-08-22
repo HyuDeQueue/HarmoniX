@@ -21,7 +21,7 @@ namespace HarmoniX_Repository.Repositories
         public async Task AddCategory(Category category)
         {
             _context = new();
-            _context.Categories.Add(category);
+            await _context.Categories.AddAsync(category);
             await _context.SaveChangesAsync();
         }
     }
