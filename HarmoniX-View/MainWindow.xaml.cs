@@ -49,7 +49,7 @@ namespace HarmoniX_View
             detail.ShowDialog();
         }
 
-        private async void PlayButton_Click(object sender, RoutedEventArgs e)
+        private async Task PlaySong()
         {
             try
             {
@@ -89,6 +89,11 @@ namespace HarmoniX_View
             {
                 MessageBox.Show($"An error occurred while trying to play the song: {ex.Message}");
             }
+        }
+
+        private async void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            await PlaySong();
         }
 
         private void btnCreatePlaylist_Click(object sender, RoutedEventArgs e)
