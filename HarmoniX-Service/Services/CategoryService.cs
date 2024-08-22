@@ -16,5 +16,8 @@ namespace HarmoniX_Service.Services
         {
             return await _repo.GetAll();
         }
+
+        public async Task AddCategory(Category category) 
+            => await _repo.AddCategory(category);
     }
 }

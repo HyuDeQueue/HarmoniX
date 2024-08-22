@@ -17,5 +17,12 @@ namespace HarmoniX_Repository.Repositories
             _context = new();
             return await _context.Categories.ToListAsync();
         }
+
+        public async Task AddCategory(Category category)
+        {
+            _context = new();
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
+        }
     }
 }

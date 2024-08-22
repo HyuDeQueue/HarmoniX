@@ -121,10 +121,17 @@ namespace HarmoniX_View
         {
             try
             {
-                if (string.IsNullOrEmpty(SongNameTextBox.Text) || string.IsNullOrEmpty(AuthorTextBox.Text) || string.IsNullOrEmpty(fileName))
+                if (string.IsNullOrEmpty(SongNameTextBox.Text) || string.IsNullOrEmpty(AuthorTextBox.Text))
                 {
-                    MessageBox.Show("Please fill in all song details and select a file.", "Incomplete Information", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
+                    if (SelectedSong == null && string.IsNullOrEmpty(fileName))
+                    {
+                        MessageBox.Show("Please fill in all song details and select a file.", "Incomplete Information", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    } else if (SelectedSong != null)
+                    {
+                        MessageBox.Show("Please fill in all song details.", "Incomplete Information", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
                 }
 
                 LoadingSpinner.Visibility = Visibility.Visible;
@@ -133,7 +140,8 @@ namespace HarmoniX_View
                 {
                     SongTitle = SongNameTextBox.Text,
                     ArtistName = AuthorTextBox.Text,
-                    CategoryId = (int)SongCategoryIdComboBox.SelectedValue,
+                    //CategoryId = (int)SongCategoryIdComboBox.SelectedValue,
+                    CategoryId = int.Parse(SongCategoryIdComboBox.SelectedValue.ToString()),
                     AccountId = _account.AccountId
                 };
 
@@ -141,14 +149,17 @@ namespace HarmoniX_View
                 if (SelectedSong == null)
                 {
                     await _songService.UploadSongAsync(newSong, fileName);
+                    ClearForm();
+                    MessageBox.Show("Song saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    await _songService.UpdateSongAsync(newSong, fileName);
+                    newSong.SongMedia = SelectedSong.SongMedia;
+                    await _songService.UpdateSongAsync(newSong);
+                    MessageBox.Show("Song updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close();
                 }
-                ClearForm();
-
-                MessageBox.Show("Song saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                
             }
             catch (Exception ex)
             {
@@ -232,9 +243,10 @@ namespace HarmoniX_View
                 SongNameTextBox.Text = SelectedSong.SongTitle.ToString();
                 AuthorTextBox.Text = SelectedSong.ArtistName.ToString();
                 SongCategoryIdComboBox.SelectedValue = SelectedSong.CategoryId.ToString();
-                // Hiển thị tên tệp bài hát trong ô Add Song
-                FileName.Text = System.IO.Path.GetFileName(SelectedSong.SongMedia);
-                fileName = SelectedSong.SongMedia; // Thiết lập đường dẫn tệp cho quá trình cập nhật
+                FileName.IsEnabled = false;
+                OpenButton.IsEnabled = false;
+                PlayButton.IsEnabled = false;
+                TimelineProgressBar.IsEnabled = false;
             }
         }
     }
