@@ -371,5 +371,36 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+        <Button x:Name="Close" Content="Logout" FontSize="16" Foreground="White" BorderBrush="Transparent" Click="Close_Click" RenderTransformOrigin="0.5,0.5" Margin="614,470,-1,26">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.361"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#D32F2F"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="FontFamily" Value="Montserrat"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF5A5A"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Width="150" Height="40" CornerRadius="20" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </Grid>
 </Window>

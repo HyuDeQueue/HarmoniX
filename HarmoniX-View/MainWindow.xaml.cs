@@ -401,7 +401,12 @@ namespace HarmoniX_View
             await PlayNextSong();
         }
 
-
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            LoginForm loginForm = new LoginForm();
+            loginForm.Show();
+            this.Close();
+        }
     }
 }
 
