@@ -24,6 +24,8 @@ namespace HarmoniX_View
         public LoginForm()
         {
             InitializeComponent();
+            txtUser.KeyDown += TextBox_KeyDown;
+            txtPass.KeyDown += TextBox_KeyDown;
         }
 
         private readonly AccountService _accountService = new();
@@ -95,6 +97,14 @@ namespace HarmoniX_View
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnLogin_Click(sender, new RoutedEventArgs());
+            }
         }
     }
 }

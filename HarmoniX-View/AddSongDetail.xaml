@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HarmoniX_View"
         mc:Ignorable="d"
-        Title="AddSongDetail" Height="710" Width="1145" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" WindowStyle="None">
+        Title="AddSongDetail" Height="619" Width="830" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" WindowStyle="None" Background="Transparent" AllowsTransparency="True">
     <Window.Resources>
         <!-- SubMenuButtonStyle -->
         <Style x:Key="SubMenuButtonStyle" TargetType="Button">
@@ -46,7 +46,7 @@
         </Style>
     </Window.Resources>
 
-    <Border CornerRadius="12">
+    <Border CornerRadius="20">
         <Border.Background>
             <ImageBrush ImageSource="/assets/back-image.jpg"
                         Stretch="None"/>
@@ -69,7 +69,7 @@
             </Border.Background>
             <Grid Margin="20">
                 <!-- Header -->
-                <Label x:Name="SongLabel" Content="Create | Update Song" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="36" FontWeight="Bold" Foreground="White"/>
+                <Label x:Name="SongLabel" Content="Create | Update Song" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="36" FontWeight="Bold" Foreground="White"/>
 
                 <!-- Main Content Area -->
                 <Border Background="#282828" CornerRadius="10" Margin="0,80,0,0" Padding="20">
@@ -84,7 +84,7 @@
 
                         <!-- Song Category -->
                         <Label Content="Song Category" Margin="0,20,0,0" Foreground="White" FontSize="16"/>
-                        <ComboBox x:Name="SongCategoryIdComboBox" Margin="0,5,0,0" FontSize="16" Background="#404040" Foreground="White" BorderBrush="Transparent" Height="30"/>
+                        <ComboBox x:Name="SongCategoryIdComboBox" Margin="0,5,0,0" FontSize="16" Background="#404040" Foreground="Black" BorderBrush="Transparent" Height="30"/>
 
                         <!-- Add Song -->
                         <Label Content="Add Song" Margin="0,20,0,0" Foreground="White" FontSize="16"/>
@@ -94,15 +94,51 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="FileName" Height="30"/>
-                            <Button x:Name="OpenButton" Content="Open" Click="BT_Click_Open" Margin="991,0,0,0" Width="70" Background="#1DB954" Height="30" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                            <Button x:Name="OpenButton" Content="Open" Click="BT_Click_Open" Margin="677,0,0,0" Width="70" Background="#1DB954" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </Grid>
                     </StackPanel>
                 </Border>
 
                 <!-- Footer Buttons -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0">
-                    <Button x:Name="SaveButton" Content="Save Song" Margin="0,0,10,0" Width="100" Height="40" FontSize="16" Background="#1DB954" Click="SaveButton_Click" />
-                    <Button x:Name="Close" Content="Close" Width="100" Height="40" FontSize="16" Background="#D32F2F" Click="Close_Click"/>
+                    <Button x:Name="SaveButton" Content="Save Song" Margin="0,0,10,0" Width="100" Height="40" FontSize="16" Background="#1DB954" Click="SaveButton_Click" Foreground="White">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#462AD8"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#28AEED"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="90" Height="40" CornerRadius="20" Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="Close" Content="Close" Width="100" Height="40" FontSize="16" Foreground="White" Background="#D32F2F" Click="Close_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#462AD8"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#28AEED"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="90" Height="40" CornerRadius="20" Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </StackPanel>
 
                 <!-- Test Button and Timeline -->

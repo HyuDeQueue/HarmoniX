@@ -14,6 +14,10 @@ namespace HarmoniX_View
         public SignUpForm()
         {
             InitializeComponent();
+            txtName.KeyDown += TextBox_KeyDown;
+            txtUser.KeyDown += TextBox_KeyDown;
+            txtPass.KeyDown += TextBox_KeyDown;
+            txtConfirmPass.KeyDown += TextBox_KeyDown;
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -126,6 +130,14 @@ namespace HarmoniX_View
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnSignUp_Click(sender, new RoutedEventArgs());
+            }
         }
     }
 }
