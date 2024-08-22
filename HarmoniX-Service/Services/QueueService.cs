@@ -132,6 +132,7 @@ namespace HarmoniX_Service.Services
         }
 
 
+
         public void ClearQueue()
         {
             _songQueue.Clear();

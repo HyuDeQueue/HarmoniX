@@ -123,11 +123,9 @@ namespace HarmoniX_View
             try
             {
                 var stream = await _songService.GetSongStreamAsync(song.SongMedia);
-
                 if (stream != null)
                 {
                     string tempFilePath = System.IO.Path.GetTempFileName() + ".mp3";
-
                     using (var fileStream = System.IO.File.Create(tempFilePath))
                     {
                         await stream.CopyToAsync(fileStream);
@@ -141,14 +139,10 @@ namespace HarmoniX_View
                     _wavePlayer.PlaybackStopped += OnWavePlayerPlaybackStopped;
                     _audioFileReader = new AudioFileReader(tempFilePath);
                     _wavePlayer.Init(_audioFileReader);
-                    var volumeStream = new WaveChannel32(_audioFileReader)
-                    {
-                        Volume = (float)VolumeSlider.Value
-                    };
-                    _wavePlayer.Init(volumeStream);
-                    _wavePlayer.Play();
 
-                    // Update UI
+                    //MessageBox.Show("Playing song now.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    _wavePlayer.Play();
                     Dispatcher.Invoke(() =>
                     {
                         NowPlayingTextBlock.Text = $"Now Playing: {song.SongTitle}";
@@ -166,22 +160,34 @@ namespace HarmoniX_View
             }
         }
 
+
+
         private async Task PlayNextSong()
         {
-            Song nextSong = _queueService.PlayNextSong();
-            if (nextSong != null)
+            try
             {
-                await PlaySong(nextSong);
-            }
-            else
-            {
-                Dispatcher.Invoke(() =>
+                Song nextSong = _queueService.PlayNextSong();
+                if (nextSong != null)
                 {
-                    NowPlayingTextBlock.Text = "Queue is empty.";
-                    _wavePlayer?.Stop();  // Stop player if queue is empty
-                });
+                    await PlaySong(nextSong);
+                }
+                else
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        NowPlayingTextBlock.Text = "Queue is empty.";
+                        _wavePlayer?.Stop();  // Stop player if queue is empty
+                    });
+                }
             }
-            UpdateQueueDataGrid();
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while playing the next song: {ex.Message}");
+            }
+            finally
+            {
+                UpdateQueueDataGrid();
+            }
         }
 
         private async void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -223,9 +229,20 @@ namespace HarmoniX_View
 
         private void OnWavePlayerPlaybackStopped(object sender, StoppedEventArgs e)
         {
-            // Play the next song in the queue
-            Dispatcher.Invoke(async () => await PlayNextSong());
+            if (_audioFileReader != null)
+            {
+                _audioFileReader.Dispose();
+                _audioFileReader = null;
+            }
+
+            Dispatcher.Invoke(async () =>
+            {
+                //MessageBox.Show("The song has finished playing.", "Song Finished", MessageBoxButton.OK, MessageBoxImage.Information);
+                await PlayNextSong();
+            });
         }
+
+
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -281,5 +298,6 @@ namespace HarmoniX_View
             d.ShowDialog();
             LoadSongs();
         }
+
     }
 }
