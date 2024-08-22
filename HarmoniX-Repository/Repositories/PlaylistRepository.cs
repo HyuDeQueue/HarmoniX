@@ -10,5 +10,13 @@ namespace HarmoniX_Repository.Repositories
     public class PlaylistRepository
     {
         private HarmonixDbContext _context;
+
+        public async void Create(Playlist playlist)
+        {
+            _context = new HarmonixDbContext();
+            _context.Playlists.Add(playlist);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }
