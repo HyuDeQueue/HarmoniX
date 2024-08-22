@@ -60,8 +60,6 @@ namespace HarmoniX_View
                 bool isAdded = _queueService.AddSongToQueue(selectedSong);
                 if (isAdded)
                 {
-                    MessageBox.Show($"{selectedSong.SongTitle} by {selectedSong.ArtistName} added to queue.");
-
                     if (!_queueService.IsPlaying)
                     {
                         await PlayNextSong();
