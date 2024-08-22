@@ -215,22 +215,22 @@
                 </StackPanel>
             </Border>
         </Border>
-        <TextBlock Name="NowPlayingTextBlock" HorizontalAlignment="Left" Margin="21,332,0,0" TextWrapping="Wrap" Text="Now Playing: " VerticalAlignment="Top" Width="222" IsEnabled="False" Height="21" Background="Transparent" Foreground="White" />
-        <TextBlock x:Name="CurrentTimeTextBlock" Text="00:00" HorizontalAlignment="Left" Margin="21,353,0,0" Foreground="White" Background="Transparent" VerticalAlignment="Top" Width="34"/>
-        <ProgressBar Name="SongProgressBar" HorizontalAlignment="Left" Height="7" Margin="60,358,0,0" VerticalAlignment="Top" Width="152"/>
-        <TextBlock x:Name="TotalTimeTextBlock" Text="00:00" HorizontalAlignment="Left" Margin="217,353,0,0" Foreground="White" Background="Transparent" VerticalAlignment="Top" Width="34"/>
-        <TextBlock x:Name="SongInfoTextBlock" HorizontalAlignment="Left" Margin="60,370,0,0" Foreground="White" Text="Song - Artist" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Background="Transparent" Foreground="White" Margin="47,397,0,0" TextWrapping="Wrap" Text="Volume" VerticalAlignment="Top" Width="47"/>
+        <TextBlock Name="NowPlayingTextBlock" HorizontalAlignment="Left" Margin="29,392,0,0" TextWrapping="Wrap" Text="Now Playing: " VerticalAlignment="Top" Width="222" IsEnabled="False" Height="21" Background="Transparent" Foreground="White" />
+        <TextBlock x:Name="CurrentTimeTextBlock" Text="00:00" HorizontalAlignment="Left" Margin="29,413,0,0" Foreground="White" Background="Transparent" VerticalAlignment="Top" Width="34"/>
+        <ProgressBar Name="SongProgressBar" HorizontalAlignment="Left" Height="7" Margin="68,418,0,0" VerticalAlignment="Top" Width="152"/>
+        <TextBlock x:Name="TotalTimeTextBlock" Text="00:00" HorizontalAlignment="Left" Margin="225,413,0,0" Foreground="White" Background="Transparent" VerticalAlignment="Top" Width="34"/>
+        <TextBlock x:Name="SongInfoTextBlock" HorizontalAlignment="Left" Margin="68,430,0,0" Foreground="White" Text="Song - Artist" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Background="Transparent" Foreground="White" Margin="55,457,0,0" TextWrapping="Wrap" Text="Volume" VerticalAlignment="Top" Width="47"/>
         <Slider x:Name="VolumeSlider" 
             HorizontalAlignment="Left" 
-            Margin="103,397,0,0" 
+            Margin="111,457,0,0" 
             VerticalAlignment="Top" 
             Width="120" 
             Minimum="0" 
             Maximum="1" 
             Value="0.5"
             ValueChanged="VolumeSlider_ValueChanged"/>
-        <Button x:Name="PlayPauseButton" HorizontalAlignment="Left" Margin="52,420,0,0" VerticalAlignment="Top" Height="32" Width="36" Click="PlayPauseButton_Click" >
+        <Button x:Name="PlayPauseButton" HorizontalAlignment="Left" Margin="60,480,0,0" VerticalAlignment="Top" Height="32" Width="36" Click="PlayPauseButton_Click" >
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -240,7 +240,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button HorizontalAlignment="Left" Margin="118,420,0,0" VerticalAlignment="Top" Height="32" Width="36">
+        <Button HorizontalAlignment="Left" Margin="126,480,0,0" VerticalAlignment="Top" Height="32" Width="36">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -250,7 +250,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button HorizontalAlignment="Left" Margin="187,420,0,0" VerticalAlignment="Top" Height="32" Width="36">
+        <Button x:Name="ShuffleBtn" HorizontalAlignment="Left" Margin="195,480,0,0" VerticalAlignment="Top" Height="32" Width="36" Click="ShuffleBtn_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
