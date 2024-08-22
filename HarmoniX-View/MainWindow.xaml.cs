@@ -15,6 +15,7 @@ namespace HarmoniX_View
         private IWavePlayer _wavePlayer;
         private AudioFileReader _audioFileReader;
         private readonly SongService _songService = new();
+        private readonly PlaylistService _playlistService = new();
         public event Action OnSongDetailClosed;
         public event PropertyChangedEventHandler PropertyChanged;
         private readonly Account _account;
@@ -79,6 +80,11 @@ namespace HarmoniX_View
             var songs = await _songService.GetAllSongsAsync();
             SongsDataGrid.ItemsSource = songs;
         }
+        private async void LoadPlayLists()
+        {
+            var playlists = await _playlistService.GetAllPlaylist();
+            PlaylistDataGrid.ItemsSource = playlists;
+        }
 
         private async void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -98,7 +104,7 @@ namespace HarmoniX_View
         private void btnCreatePlaylist_Click(object sender, RoutedEventArgs e)
         {
             CreatePlaylist createPlaylist = new CreatePlaylist(_account);
-            createPlaylist.Show();
+            createPlaylist.ShowDialog();
         }
 
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
@@ -302,5 +308,31 @@ namespace HarmoniX_View
             _queueService.ShuffleQueue();
             UpdateQueueDataGrid();
         }
+
+        private void UpQueue_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is Song selectedSong)
+            {
+                _queueService.MoveSongUpInQueue(selectedSong);
+                UpdateQueueDataGrid();
+            }
+        }
+        private void DownQueue_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is Song selectedSong)
+            {
+                _queueService.MoveSongDownInQueue(selectedSong);
+                UpdateQueueDataGrid();
+            }
+        }
+        private void RemoveQueue_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is Song selectedSong)
+            {
+                _queueService.RemoveSongFromQueue(selectedSong);
+                UpdateQueueDataGrid();
+            }
+        }
     }
 }
+

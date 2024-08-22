@@ -136,7 +136,7 @@
                                         <DataTemplate>
                                             <UniformGrid Columns="3" HorizontalAlignment="Center">
                                                 <!-- Up Button -->
-                                                <Button Content="↑" Tag="{Binding}" Width="20" Height="20">
+                                                <Button Content="↑" Tag="{Binding}" Width="20" Height="20" Click="UpQueue_Click">
                                                     <Button.Style>
                                                         <Style TargetType="Button">
                                                             <Setter Property="Background" Value="#36E0E0"/>
@@ -167,7 +167,7 @@
                                                     </Button.Style>
                                                 </Button>
                                                 <!-- Down Button -->
-                                                <Button Content="↓" Tag="{Binding}" Width="20" Height="20">
+                                                <Button Content="↓" Tag="{Binding}" Width="20" Height="20" Click="DownQueue_Click">
                                                     <Button.Style>
                                                         <Style TargetType="Button">
                                                             <Setter Property="Background" Value="#1DB954"/>
@@ -198,7 +198,7 @@
                                                     </Button.Style>
                                                 </Button>
                                                 <!-- Remove Button -->
-                                                <Button Content="X" Tag="{Binding}" Width="20" Height="20">
+                                                <Button Content="X" Tag="{Binding}" Width="20" Height="20" Click="RemoveQueue_Click">
                                                     <Button.Style>
                                                         <Style TargetType="Button">
                                                             <Setter Property="Background" Value="#D32F2F"/>

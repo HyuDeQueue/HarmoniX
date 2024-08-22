@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HarmoniX_View"
         mc:Ignorable="d"
         xmlns:mp="http://schemas.mpcoding.com/mpcoding/wpf/loadinganimation"
-        Title="LoginForm" Height="550" Width="800" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" MouseDown="Window_MouseDown" Background="Transparent" AllowsTransparency="True">
+        Title="LoginForm" Height="550" Width="800" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="Transparent" AllowsTransparency="True">
     <Border CornerRadius="12">
         <Border.Background>
             <ImageBrush ImageSource="/assets/back-image.jpg"
@@ -124,8 +124,7 @@
                             FontSize="12"
                             FontFamily="Montserrat"
                             Cursor="Hand"                           
-                            Margin="0,50,0,0"
-                            Click="btnLogin_Click">
+                            Margin="0,50,0,0">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="#462AD8"/>
