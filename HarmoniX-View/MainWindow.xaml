@@ -197,7 +197,15 @@
         <TextBlock x:Name="TotalTimeTextBlock" Text="00:00" HorizontalAlignment="Left" Margin="217,353,0,0" Foreground="White" Background="Transparent" VerticalAlignment="Top" Width="34"/>
         <TextBlock x:Name="SongInfoTextBlock" HorizontalAlignment="Left" Margin="60,370,0,0" Foreground="White" Text="Song - Artist" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Background="Transparent" Foreground="White" Margin="47,397,0,0" TextWrapping="Wrap" Text="Volume" VerticalAlignment="Top" Width="47"/>
-        <Slider HorizontalAlignment="Left" Margin="103,397,0,0" VerticalAlignment="Top" Width="120" Value="5" />
+        <Slider x:Name="VolumeSlider" 
+            HorizontalAlignment="Left" 
+            Margin="103,397,0,0" 
+            VerticalAlignment="Top" 
+            Width="120" 
+            Minimum="0" 
+            Maximum="1" 
+            Value="0.5"
+            ValueChanged="VolumeSlider_ValueChanged"/>
         <Button x:Name="PlayPauseButton" HorizontalAlignment="Left" Margin="52,420,0,0" VerticalAlignment="Top" Height="32" Width="36" Click="PlayPauseButton_Click" >
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">

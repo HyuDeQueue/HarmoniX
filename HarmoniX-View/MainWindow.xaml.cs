@@ -40,6 +40,8 @@ namespace HarmoniX_View
             _timer.Tick += Timer_Tick;
             _timer.Start();
 
+            SetVolume(VolumeSlider.Value);
+
         }
 
         // Add the Window_MouseDown method
@@ -139,12 +141,17 @@ namespace HarmoniX_View
                     _wavePlayer.PlaybackStopped += OnWavePlayerPlaybackStopped;
                     _audioFileReader = new AudioFileReader(tempFilePath);
                     _wavePlayer.Init(_audioFileReader);
+                    var volumeStream = new WaveChannel32(_audioFileReader)
+                    {
+                        Volume = (float)VolumeSlider.Value
+                    };
+                    _wavePlayer.Init(volumeStream);
                     _wavePlayer.Play();
 
                     // Update UI
                     Dispatcher.Invoke(() =>
                     {
-                        NowPlayingTextBlock.Text = $"Now Playing: {song.SongTitle} by {song.ArtistName}";
+                        NowPlayingTextBlock.Text = $"Now Playing: {song.SongTitle}";
                         SongInfoTextBlock.Text = $"{song.SongTitle} - {song.ArtistName}";
                     });
                 }
@@ -199,12 +206,12 @@ namespace HarmoniX_View
             if (_wavePlayer?.PlaybackState == PlaybackState.Playing)
             {
                 _wavePlayer.Pause();
-                playPauseTextBlock.Text = "▶️"; // Change icon to play
+                playPauseTextBlock.Text = "▶️";
             }
             else if (_wavePlayer?.PlaybackState == PlaybackState.Paused)
             {
                 _wavePlayer.Play();
-                playPauseTextBlock.Text = "⏸️"; // Change icon to pause
+                playPauseTextBlock.Text = "⏸️"; 
             }
             else
             {
@@ -239,6 +246,19 @@ namespace HarmoniX_View
         {
             QueueDataGrid.ItemsSource = null;
             QueueDataGrid.ItemsSource = _queueService.GetCurrentQueue();
+        }
+
+        private void SetVolume(double volume)
+        {
+            if (_wavePlayer != null && _audioFileReader != null)
+            {
+                _audioFileReader.Volume = (float)volume;
+            }
+        }
+
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            SetVolume(e.NewValue);
         }
 
     }
