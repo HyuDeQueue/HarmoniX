@@ -70,6 +70,7 @@ namespace HarmoniX_View
                     MessageBox.Show("Failed to add the song to the queue.");
                 }
             }
+            UpdateQueueDataGrid();
         }
 
 
@@ -173,6 +174,7 @@ namespace HarmoniX_View
                     _wavePlayer?.Stop();  // Stop player if queue is empty
                 });
             }
+            UpdateQueueDataGrid();
         }
 
         private async void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -185,6 +187,7 @@ namespace HarmoniX_View
             {
                 MessageBox.Show("Please select a song to play.");
             }
+            UpdateQueueDataGrid();
         }
 
         private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
@@ -230,6 +233,12 @@ namespace HarmoniX_View
                 TimeSpan timeRemaining = _totalDuration - _audioFileReader.CurrentTime;
                 TotalTimeTextBlock.Text = timeRemaining.ToString(@"mm\:ss");
             }
+        }
+
+        private void UpdateQueueDataGrid()
+        {
+            QueueDataGrid.ItemsSource = null;
+            QueueDataGrid.ItemsSource = _queueService.GetCurrentQueue();
         }
 
     }

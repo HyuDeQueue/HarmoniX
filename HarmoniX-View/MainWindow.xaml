@@ -130,7 +130,7 @@
 
 
 
-                        <DataGrid x:Name="QueueDataGrid" ItemsSource="{Binding SongQueue}" AutoGenerateColumns="False">
+                        <DataGrid x:Name="QueueDataGrid" ItemsSource="{Binding SongQueue}" AutoGenerateColumns="False" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Title" Binding="{Binding SongTitle}" />
                                 <DataGridTextColumn Header="Artist" Binding="{Binding ArtistName}" />
