@@ -40,9 +40,22 @@ namespace HarmoniX_View
             _timer.Tick += Timer_Tick;
             _timer.Start();
 
+            SetVolume(VolumeSlider.Value);
         }
 
-        // Add the Window_MouseDown method
+        private void SetVolume(double volume)
+        {
+            if (_wavePlayer != null && _audioFileReader != null)
+            {
+                _audioFileReader.Volume = (float)volume;
+            }
+        }
+
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            SetVolume(e.NewValue);
+        }
+
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -137,8 +150,14 @@ namespace HarmoniX_View
 
                     _wavePlayer = new WaveOutEvent();
                     _wavePlayer.PlaybackStopped += OnWavePlayerPlaybackStopped;
+
+                    // Wrap AudioFileReader with WaveChannel32 for volume control
                     _audioFileReader = new AudioFileReader(tempFilePath);
-                    _wavePlayer.Init(_audioFileReader);
+                    var volumeStream = new WaveChannel32(_audioFileReader)
+                    {
+                        Volume = (float)VolumeSlider.Value
+                    };
+                    _wavePlayer.Init(volumeStream);
                     _wavePlayer.Play();
 
                     // Update UI
@@ -158,6 +177,7 @@ namespace HarmoniX_View
                 MessageBox.Show($"An error occurred while trying to play the song: {ex.Message}");
             }
         }
+
 
         private async Task PlayNextSong()
         {
