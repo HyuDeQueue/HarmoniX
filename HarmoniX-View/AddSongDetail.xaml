@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HarmoniX_View"
         mc:Ignorable="d"
-        Title="AddSongDetail" Height="619" Width="830" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" WindowStyle="None" Background="Transparent" AllowsTransparency="True">
+        Title="AddSongDetail" Height="621" Width="830" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" WindowStyle="None" Background="Transparent" AllowsTransparency="True">
     <Window.Resources>
         <!-- SubMenuButtonStyle -->
         <Style x:Key="SubMenuButtonStyle" TargetType="Button">
@@ -96,6 +96,7 @@
                             <TextBox x:Name="FileName" Height="30"/>
                             <Button x:Name="OpenButton" Content="Open" Click="BT_Click_Open" Margin="677,0,0,0" Width="70" Background="#1DB954" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </Grid>
+
                     </StackPanel>
                 </Border>
 
@@ -142,7 +143,7 @@
                 </StackPanel>
 
                 <!-- Test Button and Timeline -->
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,20,20">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,472,0,0" Width="220" Height="108">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button x:Name="PlayButton" Content="▶️" Width="50" Height="50" FontSize="20" Background="Transparent" Foreground="White" BorderBrush="Transparent" Click="BT_Click_PlayPause"/>
                     </StackPanel>
@@ -153,7 +154,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock x:Name="ElapsedTimeTextBlock" Foreground="White" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                        <ProgressBar x:Name="TimelineProgressBar" Grid.Column="1" Background="#404040" Foreground="#1DB954" Height="10" VerticalAlignment="Center"/>
+                        <ProgressBar x:Name="TimelineProgressBar" Grid.Column="1" Background="#404040" Foreground="#1DB954" Height="10" VerticalAlignment="Center" Margin="0,0,387,0"/>
                         <TextBlock x:Name="RemainingTimeTextBlock" Foreground="White" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" Grid.Column="2"/>
                     </Grid>
                 </StackPanel>
@@ -165,6 +166,29 @@
                         <ProgressBar IsIndeterminate="True" Width="100" Height="10" Foreground="#1DB954" Background="#404040"/>
                     </StackPanel>
                 </Border>
+
+                <TextBox HorizontalAlignment="Left" Name="CategoryNameInput" Margin="21,484,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="305" Height="30"/>
+                <Button Content="Add Category" Name="AddCategory" HorizontalAlignment="Left" Margin="355,478,0,0" VerticalAlignment="Top"  Width="120" Height="42" FontSize="16" Background="#1DB954" Click="CreateCate_Click" Foreground="White">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#462AD8"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#28AEED"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="120" Height="30" CornerRadius="20" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Label Content="New Category" Foreground="White" FontSize="16" Margin="21,453,19,93"/>
+
             </Grid>
         </Border>
     </Border>

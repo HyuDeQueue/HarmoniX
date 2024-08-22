@@ -249,5 +249,41 @@ namespace HarmoniX_View
                 TimelineProgressBar.IsEnabled = false;
             }
         }
+
+        private async void CreateCate_Click(object sender, RoutedEventArgs e)
+        {
+            string categoryName = CategoryNameInput.Text;
+
+            if (!string.IsNullOrWhiteSpace(categoryName))
+            {
+                try
+                {
+                    var newCategory = new Category
+                    {
+                        CategoryName = categoryName
+                    };
+
+                    await categoryService.AddCategory(newCategory);
+                    
+
+                    MessageBox.Show("Category created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    CategoryNameInput.Text = string.Empty;
+                    SongCategoryIdComboBox.ItemsSource = await categoryService.GetAllCategories();
+                    SongCategoryIdComboBox.DisplayMemberPath = "CategoryName";
+                    SongCategoryIdComboBox.SelectedValuePath = "CategoryId";
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please enter a category name.", "Input Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
     }
 }
