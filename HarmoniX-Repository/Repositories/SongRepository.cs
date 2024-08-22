@@ -74,6 +74,16 @@ namespace HarmoniX_Repository.Repositories
             return await _context.Songs.ToListAsync();
         }
 
+        public async Task<List<Song>> GetSongsByAccountIdAsync(int accountId)
+        {
+            _context = new();
+            return await _context.Songs
+                .Where(s => s.AccountId == accountId)
+                .Include("Category")
+                .Include("Account")
+                .ToListAsync();
+        }
+
         public async Task<List<Song>> GetAllSongsForGridAsync()
         {
             _context = new();

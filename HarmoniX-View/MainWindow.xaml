@@ -66,8 +66,8 @@
                         </ToggleButton>
                         <Popup PlacementTarget="{Binding ElementName=btnSong}" IsOpen="{Binding IsChecked, ElementName=btnSong}" StaysOpen="False">
                             <StackPanel Background="#1B1448" Margin="0,5,0,0">
-                                <Button Content="Your Song" Style="{StaticResource SubMenuButtonStyle}"/>
-                                <Button Content="All Songs" Style="{StaticResource SubMenuButtonStyle}"/>
+                                <Button Content="Your Song" Style="{StaticResource SubMenuButtonStyle}" Click="YourSongs_Click" />
+                                <Button Content="All Songs" Style="{StaticResource SubMenuButtonStyle}" Click="AllSongs_Click"/>
                                 <Button Click="BrowseButton_Click" Content="Add Songs" Style="{StaticResource SubMenuButtonStyle}"/>
                             </StackPanel>
                         </Popup>

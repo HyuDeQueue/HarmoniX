@@ -334,6 +334,20 @@ namespace HarmoniX_View
             }
         }
 
+        private async void AllSongs_Click(object sender, RoutedEventArgs e)
+        {
+            var songs = await _songService.GetAllSongsAsync();
+            SongsDataGrid.ItemsSource = null;
+            SongsDataGrid.ItemsSource = songs;
+        }
+
+        private async void YourSongs_Click(object sender, RoutedEventArgs e)
+        {
+            var songs = await _songService.GetSongsByIdAsync(_account.AccountId);
+            SongsDataGrid.ItemsSource = null;
+            SongsDataGrid.ItemsSource = songs;
+        }
+
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             try
