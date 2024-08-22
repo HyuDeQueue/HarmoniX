@@ -12,9 +12,14 @@ namespace HarmoniX_Service.Services
     {
         private PlaylistssongRepository _repo = new();
 
-        public void CreatePlayListSong(Playlistssong playlistsong)
+        public async Task CreatePlayListSong(Playlistssong playlistsong)
         {
-            _repo.Create(playlistsong);
+            await _repo.Create(playlistsong);
+        }
+
+        public async Task<List<Song>> GetSongsByPlaylistIdAsync(int playlistId)
+        {
+            return await _repo.GetSongsByPlaylistIdAsync(playlistId);
         }
     }
     

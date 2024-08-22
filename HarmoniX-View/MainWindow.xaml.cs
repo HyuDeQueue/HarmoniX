@@ -448,7 +448,17 @@ namespace HarmoniX_View
 
         private void UpdatePlaylistButton_Click(object sender, RoutedEventArgs e)
         {
+            var selectedPlaylist = PlaylistDataGrid.SelectedItem as Playlist;
 
+            if (selectedPlaylist != null)
+            {
+                var updatePlaylistWindow = new UpdatePlaylist(selectedPlaylist);
+                updatePlaylistWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Please select a playlist to update.");
+            }
         }
 
         private void StopMusicButton_Click(object sender, RoutedEventArgs e)
