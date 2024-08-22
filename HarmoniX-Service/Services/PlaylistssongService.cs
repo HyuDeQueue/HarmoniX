@@ -1,4 +1,5 @@
-﻿using HarmoniX_Repository.Repositories;
+﻿using HarmoniX_Repository.Models;
+using HarmoniX_Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,11 @@ namespace HarmoniX_Service.Services
     public class PlaylistssongService
     {
         private PlaylistssongRepository _repo = new();
+
+        public void CreatePlayListSong(Playlistssong playlistsong)
+        {
+            _repo.Create(playlistsong);
+        }
     }
+    
 }
