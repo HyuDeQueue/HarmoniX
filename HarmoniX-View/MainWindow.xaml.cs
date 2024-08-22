@@ -299,5 +299,10 @@ namespace HarmoniX_View
             LoadSongs();
         }
 
+        private void ShuffleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            _queueService.ShuffleQueue();
+            UpdateQueueDataGrid();
+        }
     }
 }
