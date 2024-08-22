@@ -98,8 +98,8 @@ namespace HarmoniX_View
 
         private void btnCreatePlaylist_Click(object sender, RoutedEventArgs e)
         {
-            CreatePlaylist createPlaylist = new CreatePlaylist();
-            createPlaylist.Show();
+            //CreatePlaylist createPlaylist = new CreatePlaylist();
+            //createPlaylist.Show();
         }
 
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
@@ -115,6 +115,15 @@ namespace HarmoniX_View
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            Song? selected = SongsDataGrid.SelectedItem as Song;
+            if (selected != null)
+            {
+                
+            }
         }
     }
 }

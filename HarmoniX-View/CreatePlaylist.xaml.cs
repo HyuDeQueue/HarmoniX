@@ -25,6 +25,10 @@ namespace HarmoniX_View
         private PlaylistService _playlistService = new();
         private Account _account;
 
+        //public CreatePlaylist()
+        //{
+        //}
+
         public CreatePlaylist(Account account)
         {
             InitializeComponent();
