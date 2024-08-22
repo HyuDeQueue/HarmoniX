@@ -22,6 +22,7 @@ namespace HarmoniX_View
         private readonly QueueService _queueService;
         private TimeSpan _totalDuration;
         private DispatcherTimer _timer;
+        private bool _isPlaying;
 
 
         public MainWindow(Account account)
@@ -45,7 +46,6 @@ namespace HarmoniX_View
 
         }
 
-        // Add the Window_MouseDown method
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -77,7 +77,7 @@ namespace HarmoniX_View
 
         private async void LoadSongs()
         {
-            var songs = await _songService.GetAllSongsAsync();
+            var songs = await _songService.GetSongsByIdAsync(_account.AccountId);
             SongsDataGrid.ItemsSource = songs;
         }
         private async void LoadPlayLists()
@@ -96,10 +96,6 @@ namespace HarmoniX_View
             detail.ShowDialog();
         }
 
-        //private async void PlayButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    await PlaySong();
-        //}
 
         private void btnCreatePlaylist_Click(object sender, RoutedEventArgs e)
         {
@@ -144,7 +140,6 @@ namespace HarmoniX_View
                     _audioFileReader = new AudioFileReader(tempFilePath);
                     _wavePlayer.Init(_audioFileReader);
 
-                    //MessageBox.Show("Playing song now.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     _wavePlayer.Play();
                     Dispatcher.Invoke(() =>
@@ -168,31 +163,27 @@ namespace HarmoniX_View
 
         private async Task PlayNextSong()
         {
-            try
+            StopCurrentSong();
+
+            Song nextSong = _queueService.PlayNextSong();
+            if (nextSong != null)
             {
-                Song nextSong = _queueService.PlayNextSong();
-                if (nextSong != null)
+                _isPlaying = true; 
+                await PlaySong(nextSong);
+            }
+            else
+            {
+                _isPlaying = false;
+                Dispatcher.Invoke(() =>
                 {
-                    await PlaySong(nextSong);
-                }
-                else
-                {
-                    Dispatcher.Invoke(() =>
-                    {
-                        NowPlayingTextBlock.Text = "Queue is empty.";
-                        _wavePlayer?.Stop();  // Stop player if queue is empty
-                    });
-                }
+                    NowPlayingTextBlock.Text = "Queue is empty.";
+                });
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred while playing the next song: {ex.Message}");
-            }
-            finally
-            {
-                UpdateQueueDataGrid();
-            }
+
+            UpdateQueueDataGrid();
         }
+
+
 
         private async void PlayButton_Click(object sender, RoutedEventArgs e)
         {
@@ -229,9 +220,26 @@ namespace HarmoniX_View
             }
         }
 
+        private void StopCurrentSong()
+        {
+            if (_wavePlayer != null)
+            {
+                _wavePlayer.PlaybackStopped -= OnWavePlayerPlaybackStopped;
+                _wavePlayer.Stop();
+                _wavePlayer.Dispose();
+                _wavePlayer = null;
+            }
+
+            if (_audioFileReader != null)
+            {
+                _audioFileReader.Dispose();
+                _audioFileReader = null;
+            }
+        }
 
 
-        private void OnWavePlayerPlaybackStopped(object sender, StoppedEventArgs e)
+
+        private async void OnWavePlayerPlaybackStopped(object sender, StoppedEventArgs e)
         {
             if (_audioFileReader != null)
             {
@@ -239,12 +247,14 @@ namespace HarmoniX_View
                 _audioFileReader = null;
             }
 
-            Dispatcher.Invoke(async () =>
+            if (_isPlaying)
             {
-                //MessageBox.Show("The song has finished playing.", "Song Finished", MessageBoxButton.OK, MessageBoxImage.Information);
+                _isPlaying = false;
                 await PlayNextSong();
-            });
+            }
         }
+
+
 
 
 
@@ -372,6 +382,14 @@ namespace HarmoniX_View
                 MessageBox.Show($"An error occurred while searching: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private async void SkipButton_Click(object sender, RoutedEventArgs e)
+        {
+            StopCurrentSong();
+            await PlayNextSong();
+        }
+
+
     }
 }
 

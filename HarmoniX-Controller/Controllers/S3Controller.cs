@@ -14,9 +14,8 @@ namespace HarmoniX_Controller.Controllers
 
         public S3Controller()
         {
-            // Load the s3bucketkeys.json file directly
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)  // Set the base path to the application directory
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory) 
                 .AddJsonFile("s3bucketkeys.json", optional: false, reloadOnChange: true)
                 .Build();
 
