@@ -24,6 +24,7 @@ namespace HarmoniX_View
     {
         private readonly PlaylistService _playlistService = new();
         private Account _account;
+        public event Action OnPlaylistCreateClosed;
 
         //public CreatePlaylist()
         //{
@@ -38,6 +39,13 @@ namespace HarmoniX_View
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+
+        protected override void OnClosed(EventArgs e)
+        {
+            OnPlaylistCreateClosed?.Invoke();
+            base.OnClosed(e);
         }
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)

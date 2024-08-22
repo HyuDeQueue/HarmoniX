@@ -17,12 +17,14 @@ namespace HarmoniX_View
         private readonly SongService _songService = new();
         private readonly PlaylistService _playlistService = new();
         public event Action OnSongDetailClosed;
+        public event Action OnPlaylistCreateClosed;
         public event PropertyChangedEventHandler PropertyChanged;
         private readonly Account _account;
         private readonly QueueService _queueService;
         private TimeSpan _totalDuration;
         private DispatcherTimer _timer;
         private bool _isPlaying;
+        private readonly AccountService _accountService = new();
 
 
         public MainWindow(Account account)
@@ -30,6 +32,7 @@ namespace HarmoniX_View
             InitializeComponent();
             _account = account;
             LoadSongs();
+            LoadPlayLists();
             _queueService = new QueueService();
 
             _wavePlayer = new WaveOutEvent();
@@ -43,8 +46,32 @@ namespace HarmoniX_View
             _timer.Start();
 
             SetVolume(VolumeSlider.Value);
+            LoadAccountsAsync();
 
         }
+
+        public async Task LoadAccountsAsync()
+        {
+            var accounts = await _accountService.GetAllAccountsAsync();
+            AccountsListBox.ItemsSource = accounts;
+            AccountsListBox.DisplayMemberPath = "Username";
+        }
+
+        private async void AccountsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedAccount = AccountsListBox.SelectedItem as Account;
+
+            if (selectedAccount != null)
+            {
+                int accountId = selectedAccount.AccountId;
+                var songs = await _songService.GetSongsByIdAsync(accountId);
+                SongsDataGrid.ItemsSource = songs;
+
+                var playlists = await _playlistService.GetPlaylistByAccountId(accountId);
+                PlaylistDataGrid.ItemsSource = playlists;
+            }
+        }
+
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -82,7 +109,8 @@ namespace HarmoniX_View
         }
         private async void LoadPlayLists()
         {
-            var playlists = await _playlistService.GetAllPlaylist();
+            var playlists = await _playlistService.GetPlaylistByAccountId(_account.AccountId);
+            PlaylistDataGrid.ItemsSource = null;
             PlaylistDataGrid.ItemsSource = playlists;
         }
 
@@ -100,6 +128,10 @@ namespace HarmoniX_View
         private void btnCreatePlaylist_Click(object sender, RoutedEventArgs e)
         {
             CreatePlaylist createPlaylist = new CreatePlaylist(_account);
+            createPlaylist.OnPlaylistCreateClosed += () =>
+            {
+                LoadPlayLists();
+            };
             createPlaylist.ShowDialog();
         }
 
@@ -407,6 +439,18 @@ namespace HarmoniX_View
             loginForm.Show();
             this.Close();
         }
+
+        private void AddPlaylistToQueueButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void UpdatePlaylistButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
     }
 }
 
