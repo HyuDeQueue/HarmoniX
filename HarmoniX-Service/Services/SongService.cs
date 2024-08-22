@@ -56,5 +56,11 @@ namespace HarmoniX_Service.Services
             await _songRepository.UpdateSongAsync(song);
             return;
         }
+
+        public async Task<List<Song>> SearchSongsAsync(string songTitle, string artistName)
+        {
+            return await _songRepository.SearchSongsAsync(songTitle, artistName);
+        }
+
     }
 }

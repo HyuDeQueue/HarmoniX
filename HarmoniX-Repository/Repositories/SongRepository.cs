@@ -83,5 +83,27 @@ namespace HarmoniX_Repository.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<Song>> SearchSongsAsync(string songTitle, string artistName)
+        {
+            _context = new();
+
+            var query = _context.Songs.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(songTitle))
+            {
+                query = query.Where(s => s.SongTitle.Contains(songTitle));
+            }
+
+            if (!string.IsNullOrWhiteSpace(artistName))
+            {
+                query = query.Where(s => s.ArtistName.Contains(artistName));
+            }
+
+            return await query
+                    .Include("Category")
+                    .Include("Account")
+                    .ToListAsync();
+        }
+
     }
 }
