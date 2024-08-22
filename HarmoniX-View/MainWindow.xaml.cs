@@ -302,5 +302,31 @@ namespace HarmoniX_View
             _queueService.ShuffleQueue();
             UpdateQueueDataGrid();
         }
+
+        private void UpQueue_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is Song selectedSong)
+            {
+                _queueService.MoveSongUpInQueue(selectedSong);
+                UpdateQueueDataGrid();
+            }
+        }
+        private void DownQueue_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is Song selectedSong)
+            {
+                _queueService.MoveSongDownInQueue(selectedSong);
+                UpdateQueueDataGrid();
+            }
+        }
+        private void RemoveQueue_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is Song selectedSong)
+            {
+                _queueService.RemoveSongFromQueue(selectedSong);
+                UpdateQueueDataGrid();
+            }
+        }
     }
 }
+
