@@ -139,14 +139,23 @@
                         </DataGrid>
 
 
-                        <DataGrid x:Name="SongsDataGrid" Grid.Column="1" Width="272" Height="200" AutoGenerateColumns="False">
+                        <DataGrid x:Name="SongsDataGrid" Grid.Column="1" Width="272" Height="200" AutoGenerateColumns="False" IsReadOnly="true">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" Binding="{Binding SongId}" />
+                                <DataGridTemplateColumn Header="Queue">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="+" Width="25" Height="25" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Title" Binding="{Binding SongTitle}" />
                                 <DataGridTextColumn Header="Artist" Binding="{Binding ArtistName}" />
-                                <DataGridTextColumn Header="Media" Binding="{Binding SongMedia}" />
+                                <DataGridTextColumn Header="Category" Binding="{Binding Category.CategoryName}" />
+                                <DataGridTextColumn Header="Uploaded By" Binding="{Binding Account.DisplayName}" />
                             </DataGrid.Columns>
                         </DataGrid>
+
+
 
                         <DataGrid x:Name="PlaylistDataGrid" Grid.Column="2" Height="200" AutoGenerateColumns="False" Margin="10,0,-12,0">
                             <DataGrid.Columns>
@@ -188,7 +197,7 @@
         <TextBox x:Name="CurrentTimeTextBlock_Copy" Text="00:00" HorizontalAlignment="Left" Margin="217,353,0,0" Foreground="White" Background="Transparent" VerticalAlignment="Top" Width="34"/>
         <TextBlock HorizontalAlignment="Left" Margin="103,375,0,0" Foreground="White" Text="Song - Artist" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Background="Transparent" Foreground="White" Margin="47,397,0,0" TextWrapping="Wrap" Text="Volumn" VerticalAlignment="Top" Width="47"/>
-        <Slider HorizontalAlignment="Left" Margin="103,397,0,0" VerticalAlignment="Top" Width="120"/>
+        <Slider HorizontalAlignment="Left" Margin="103,397,0,0" VerticalAlignment="Top" Width="120" Value="5" />
         <Button x:Name="PlayPauseButton" HorizontalAlignment="Left" Margin="52,420,0,0" VerticalAlignment="Top" Height="32" Width="36">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">

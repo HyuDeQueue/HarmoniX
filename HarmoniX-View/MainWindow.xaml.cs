@@ -4,20 +4,23 @@ using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Input;
 using NAudio.Wave;
+using System.ComponentModel;
 
 namespace HarmoniX_View
 {
     public partial class MainWindow : Window
     {
-        private readonly Account _account;
         private IWavePlayer _wavePlayer;
         private AudioFileReader _audioFileReader;
-        private SongService _songService = new();
+        private readonly SongService _songService = new();
         public event Action OnSongDetailClosed;
-
-        public MainWindow()
+        public event PropertyChangedEventHandler PropertyChanged;
+        private readonly Account _account;
+        
+        public MainWindow(Account account)
         {
             InitializeComponent();
+            _account = account;
             LoadSongs();
         }
 
@@ -39,6 +42,10 @@ namespace HarmoniX_View
         private async void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             AddSongDetail detail = new AddSongDetail(_account);
+            detail.OnSongDetailClosed += () =>
+            {
+                LoadSongs();
+            };
             detail.ShowDialog();
         }
 
@@ -98,6 +105,11 @@ namespace HarmoniX_View
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

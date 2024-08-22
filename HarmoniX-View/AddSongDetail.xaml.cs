@@ -127,7 +127,6 @@ namespace HarmoniX_View
                     return;
                 }
 
-                // Show the loading spinner
                 LoadingSpinner.Visibility = Visibility.Visible;
 
                 var newSong = new Song
@@ -135,7 +134,7 @@ namespace HarmoniX_View
                     SongTitle = SongNameTextBox.Text,
                     ArtistName = AuthorTextBox.Text,
                     CategoryId = (int)SongCategoryIdComboBox.SelectedValue,
-                    AccountId = 1
+                    AccountId = _account.AccountId
                 };
 
                 await _songService.UploadSongAsync(newSong, fileName);

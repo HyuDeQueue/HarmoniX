@@ -82,7 +82,7 @@ namespace HarmoniX_View
 
             if (loggedInAccount != null)
             {
-                MainWindow mainWindow = new MainWindow();
+                MainWindow mainWindow = new MainWindow(loggedInAccount);
                 mainWindow.Show();
                 this.Close();
             }

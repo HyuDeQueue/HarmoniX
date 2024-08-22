@@ -48,7 +48,7 @@ namespace HarmoniX_Service.Services
 
         public async Task<List<Song>> GetAllSongsAsync()
         {
-            return await _songRepository.GetAllSongsAsync();
+            return await _songRepository.GetAllSongsForGridAsync();
         }
     }
 }
