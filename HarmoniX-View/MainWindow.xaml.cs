@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Input;
 using NAudio.Wave;
 using System.ComponentModel;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace HarmoniX_View
 {
@@ -16,12 +18,30 @@ namespace HarmoniX_View
         public event Action OnSongDetailClosed;
         public event PropertyChangedEventHandler PropertyChanged;
         private readonly Account _account;
-        
+        private readonly QueueService _queueService;
+        private TimeSpan _totalDuration;
+        private DispatcherTimer _timer;
+
+
         public MainWindow(Account account)
         {
             InitializeComponent();
             _account = account;
             LoadSongs();
+            _queueService = new QueueService();
+
+            _wavePlayer = new WaveOutEvent();
+            _wavePlayer.PlaybackStopped += OnWavePlayerPlaybackStopped;
+
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            _timer.Tick += Timer_Tick;
+            _timer.Start();
+
+            SetVolume(VolumeSlider.Value);
+
         }
 
         // Add the Window_MouseDown method
@@ -32,6 +52,29 @@ namespace HarmoniX_View
                 DragMove();
             }
         }
+
+        private async void AddToQueueButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is Song selectedSong)
+            {
+                bool isAdded = _queueService.AddSongToQueue(selectedSong);
+                if (isAdded)
+                {
+                    MessageBox.Show($"{selectedSong.SongTitle} by {selectedSong.ArtistName} added to queue.");
+
+                    if (!_queueService.IsPlaying)
+                    {
+                        await PlayNextSong();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Failed to add the song to the queue.");
+                }
+            }
+            UpdateQueueDataGrid();
+        }
+
 
         private async void LoadSongs()
         {
@@ -49,57 +92,15 @@ namespace HarmoniX_View
             detail.ShowDialog();
         }
 
-        private async Task PlaySong()
-        {
-            try
-            {
-                if (SongsDataGrid.SelectedItem is Song selectedSong)
-                {
-                    var stream = await _songService.GetSongStreamAsync(selectedSong.SongMedia);
-
-                    if (stream != null)
-                    {
-                        string tempFilePath = System.IO.Path.GetTempFileName() + ".mp3";
-
-                        using (var fileStream = System.IO.File.Create(tempFilePath))
-                        {
-                            await stream.CopyToAsync(fileStream);
-                        }
-
-                        _wavePlayer?.Stop();
-                        _wavePlayer?.Dispose();
-                        _audioFileReader?.Dispose();
-
-                        _wavePlayer = new WaveOutEvent();
-                        _audioFileReader = new AudioFileReader(tempFilePath);
-                        _wavePlayer.Init(_audioFileReader);
-                        _wavePlayer.Play();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to retrieve the song.");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Please select a song to play.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred while trying to play the song: {ex.Message}");
-            }
-        }
-
-        private async void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            await PlaySong();
-        }
+        //private async void PlayButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    await PlaySong();
+        //}
 
         private void btnCreatePlaylist_Click(object sender, RoutedEventArgs e)
         {
-            //CreatePlaylist createPlaylist = new CreatePlaylist();
-            //createPlaylist.Show();
+            CreatePlaylist createPlaylist = new CreatePlaylist(_account);
+            createPlaylist.Show();
         }
 
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
@@ -117,25 +118,148 @@ namespace HarmoniX_View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        private async Task PlaySong(Song song)
         {
-            Song? selected = SongsDataGrid.SelectedItem as Song;
-            if (selected == null)
+            try
             {
-                MessageBox.Show("Please select a song!", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                return;
-            }
+                var stream = await _songService.GetSongStreamAsync(song.SongMedia);
 
-            if (selected.AccountId != _account.AccountId)
+                if (stream != null)
+                {
+                    string tempFilePath = System.IO.Path.GetTempFileName() + ".mp3";
+
+                    using (var fileStream = System.IO.File.Create(tempFilePath))
+                    {
+                        await stream.CopyToAsync(fileStream);
+                    }
+
+                    _wavePlayer?.Stop();
+                    _wavePlayer?.Dispose();
+                    _audioFileReader?.Dispose();
+
+                    _wavePlayer = new WaveOutEvent();
+                    _wavePlayer.PlaybackStopped += OnWavePlayerPlaybackStopped;
+                    _audioFileReader = new AudioFileReader(tempFilePath);
+                    _wavePlayer.Init(_audioFileReader);
+                    var volumeStream = new WaveChannel32(_audioFileReader)
+                    {
+                        Volume = (float)VolumeSlider.Value
+                    };
+                    _wavePlayer.Init(volumeStream);
+                    _wavePlayer.Play();
+
+                    // Update UI
+                    Dispatcher.Invoke(() =>
+                    {
+                        NowPlayingTextBlock.Text = $"Now Playing: {song.SongTitle}";
+                        SongInfoTextBlock.Text = $"{song.SongTitle} - {song.ArtistName}";
+                    });
+                }
+                else
+                {
+                    MessageBox.Show("Failed to retrieve the song.");
+                }
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show("You have no permission to do this action", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                return;
+                MessageBox.Show($"An error occurred while trying to play the song: {ex.Message}");
             }
-
-            AddSongDetail d = new AddSongDetail(_account);
-            d.SelectedSong = selected;
-            d.ShowDialog();
-            LoadSongs();
         }
+
+        private async Task PlayNextSong()
+        {
+            Song nextSong = _queueService.PlayNextSong();
+            if (nextSong != null)
+            {
+                await PlaySong(nextSong);
+            }
+            else
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    NowPlayingTextBlock.Text = "Queue is empty.";
+                    _wavePlayer?.Stop();  // Stop player if queue is empty
+                });
+            }
+            UpdateQueueDataGrid();
+        }
+
+        private async void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SongsDataGrid.SelectedItem is Song selectedSong)
+            {
+                await PlaySong(selectedSong);
+            }
+            else
+            {
+                MessageBox.Show("Please select a song to play.");
+            }
+            UpdateQueueDataGrid();
+        }
+
+        private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var playPauseButtonTemplate = PlayPauseButton.Template;
+
+            var playPauseTextBlock = (TextBlock)playPauseButtonTemplate.FindName("PlayPauseTextBlock", PlayPauseButton);
+
+            if (_wavePlayer?.PlaybackState == PlaybackState.Playing)
+            {
+                _wavePlayer.Pause();
+                playPauseTextBlock.Text = "▶️";
+            }
+            else if (_wavePlayer?.PlaybackState == PlaybackState.Paused)
+            {
+                _wavePlayer.Play();
+                playPauseTextBlock.Text = "⏸️"; 
+            }
+            else
+            {
+                MessageBox.Show("No song is currently loaded.");
+            }
+        }
+
+
+
+        private void OnWavePlayerPlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            // Play the next song in the queue
+            Dispatcher.Invoke(async () => await PlayNextSong());
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (_audioFileReader != null)
+            {
+                _totalDuration = _audioFileReader.TotalTime;
+                SongProgressBar.Maximum = _totalDuration.TotalSeconds;
+                SongProgressBar.Value = _audioFileReader.CurrentTime.TotalSeconds;
+
+                CurrentTimeTextBlock.Text = _audioFileReader.CurrentTime.ToString(@"mm\:ss");
+
+                TimeSpan timeRemaining = _totalDuration - _audioFileReader.CurrentTime;
+                TotalTimeTextBlock.Text = timeRemaining.ToString(@"mm\:ss");
+            }
+        }
+
+        private void UpdateQueueDataGrid()
+        {
+            QueueDataGrid.ItemsSource = null;
+            QueueDataGrid.ItemsSource = _queueService.GetCurrentQueue();
+        }
+
+        private void SetVolume(double volume)
+        {
+            if (_wavePlayer != null && _audioFileReader != null)
+            {
+                _audioFileReader.Volume = (float)volume;
+            }
+        }
+
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            SetVolume(e.NewValue);
+        }
+
     }
 }

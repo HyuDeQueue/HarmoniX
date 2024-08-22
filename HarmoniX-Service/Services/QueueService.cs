@@ -112,5 +112,31 @@ namespace HarmoniX_Service.Services
                 _songQueue = new Queue<Song>(tempQueue);
             }
         }
+        public Song PlayNextSong()
+        {
+            if (_songQueue.Any())
+            {
+                if (_currentSong != null)
+                {
+                    _playedSongs.Add(_currentSong);
+                }
+
+                _currentSong = _songQueue.Dequeue();
+                _isPlaying = true;  // Set the state to playing
+                return _currentSong;
+            }
+
+            _currentSong = null;
+            _isPlaying = false; // No song to play, so set state to not playing
+            return null;
+        }
+
+
+        public void ClearQueue()
+        {
+            _songQueue.Clear();
+        }
+
+
     }
 }
