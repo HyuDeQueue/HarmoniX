@@ -22,7 +22,7 @@ namespace HarmoniX_View
     public partial class CreatePlaylist : Window
 
     {
-        private PlaylistService _playlistService = new();
+        private readonly PlaylistService _playlistService = new();
         private Account _account;
 
         //public CreatePlaylist()
@@ -55,11 +55,11 @@ namespace HarmoniX_View
                     PlaylistDescription = PlaylistDescriptionTextBox.Text,
                     AccountId = _account.AccountId
                 };
-                _playlistService.CreatePlayList(playlist);
+                await _playlistService.CreatePlayList(playlist);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while saving the song: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"An error occurred while saving the playlist: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

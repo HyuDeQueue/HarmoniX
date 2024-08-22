@@ -1,6 +1,8 @@
 ﻿using HarmoniX_Repository.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,11 +13,17 @@ namespace HarmoniX_Repository.Repositories
     {
         private HarmonixDbContext _context;
 
-        public async void Create(Playlist playlist)
+        public async Task Create(Playlist playlist)
         {
             _context = new HarmonixDbContext();
             _context.Playlists.Add(playlist);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Playlist>> GetAll()
+        {
+            _context = new();
+            return await _context.Playlists.Include("Account").ToListAsync();
         }
 
     }
