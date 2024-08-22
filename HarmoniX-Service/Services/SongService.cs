@@ -50,5 +50,21 @@ namespace HarmoniX_Service.Services
         {
             return await _songRepository.GetAllSongsForGridAsync();
         }
+
+        public async Task UpdateSongAsync(Song song, string filePath)
+        {
+            // Xử lý tải lên tệp nếu có tệp mới
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                string key = $"{song.SongTitle}-{Guid.NewGuid()}.mp3";
+                using (var fileStream = File.OpenRead(filePath))
+                {
+                    await _s3Controller.UploadFileAsync(key, fileStream);
+                }
+                song.SongMedia = key; // Cập nhật tham chiếu tệp media
+            }
+            await _songRepository.UpdateSongAsync(song);
+            return;
+        }
     }
 }

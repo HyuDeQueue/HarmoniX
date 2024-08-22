@@ -94,7 +94,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="FileName" Height="30"/>
-                            <Button Content="Open" Click="BT_Click_Open" Margin="10,0,0,0" Width="70" Background="#1DB954" Height="30" HorizontalAlignment="Right"/>
+                            <Button x:Name="OpenButton" Content="Open" Click="BT_Click_Open" Margin="991,0,0,0" Width="70" Background="#1DB954" Height="30" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                         </Grid>
                     </StackPanel>
                 </Border>
