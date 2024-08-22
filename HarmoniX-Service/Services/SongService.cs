@@ -28,7 +28,7 @@ namespace HarmoniX_Service.Services
             }
 
             song.SongMedia = key;
-            song.AccountId = 1;
+            song.AccountId = song.AccountId;
 
             await _songRepository.CreateSongAsync(song);
             return;
