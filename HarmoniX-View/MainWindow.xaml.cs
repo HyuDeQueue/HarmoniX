@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Input;
 using NAudio.Wave;
 using System.ComponentModel;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace HarmoniX_View
 {
@@ -16,12 +18,28 @@ namespace HarmoniX_View
         public event Action OnSongDetailClosed;
         public event PropertyChangedEventHandler PropertyChanged;
         private readonly Account _account;
-        
+        private readonly QueueService _queueService;
+        private TimeSpan _totalDuration;
+        private DispatcherTimer _timer;
+
+
         public MainWindow(Account account)
         {
             InitializeComponent();
             _account = account;
             LoadSongs();
+            _queueService = new QueueService();
+
+            _wavePlayer = new WaveOutEvent();
+            _wavePlayer.PlaybackStopped += OnWavePlayerPlaybackStopped;
+
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            _timer.Tick += Timer_Tick;
+            _timer.Start();
+
         }
 
         // Add the Window_MouseDown method
@@ -32,6 +50,28 @@ namespace HarmoniX_View
                 DragMove();
             }
         }
+
+        private async void AddToQueueButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is Song selectedSong)
+            {
+                bool isAdded = _queueService.AddSongToQueue(selectedSong);
+                if (isAdded)
+                {
+                    MessageBox.Show($"{selectedSong.SongTitle} by {selectedSong.ArtistName} added to queue.");
+
+                    if (!_queueService.IsPlaying)
+                    {
+                        await PlayNextSong();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Failed to add the song to the queue.");
+                }
+            }
+        }
+
 
         private async void LoadSongs()
         {
@@ -49,52 +89,10 @@ namespace HarmoniX_View
             detail.ShowDialog();
         }
 
-        private async Task PlaySong()
-        {
-            try
-            {
-                if (SongsDataGrid.SelectedItem is Song selectedSong)
-                {
-                    var stream = await _songService.GetSongStreamAsync(selectedSong.SongMedia);
-
-                    if (stream != null)
-                    {
-                        string tempFilePath = System.IO.Path.GetTempFileName() + ".mp3";
-
-                        using (var fileStream = System.IO.File.Create(tempFilePath))
-                        {
-                            await stream.CopyToAsync(fileStream);
-                        }
-
-                        _wavePlayer?.Stop();
-                        _wavePlayer?.Dispose();
-                        _audioFileReader?.Dispose();
-
-                        _wavePlayer = new WaveOutEvent();
-                        _audioFileReader = new AudioFileReader(tempFilePath);
-                        _wavePlayer.Init(_audioFileReader);
-                        _wavePlayer.Play();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to retrieve the song.");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Please select a song to play.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred while trying to play the song: {ex.Message}");
-            }
-        }
-
-        private async void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            await PlaySong();
-        }
+        //private async void PlayButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    await PlaySong();
+        //}
 
         private void btnCreatePlaylist_Click(object sender, RoutedEventArgs e)
         {
@@ -116,5 +114,123 @@ namespace HarmoniX_View
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private async Task PlaySong(Song song)
+        {
+            try
+            {
+                var stream = await _songService.GetSongStreamAsync(song.SongMedia);
+
+                if (stream != null)
+                {
+                    string tempFilePath = System.IO.Path.GetTempFileName() + ".mp3";
+
+                    using (var fileStream = System.IO.File.Create(tempFilePath))
+                    {
+                        await stream.CopyToAsync(fileStream);
+                    }
+
+                    _wavePlayer?.Stop();
+                    _wavePlayer?.Dispose();
+                    _audioFileReader?.Dispose();
+
+                    _wavePlayer = new WaveOutEvent();
+                    _wavePlayer.PlaybackStopped += OnWavePlayerPlaybackStopped;
+                    _audioFileReader = new AudioFileReader(tempFilePath);
+                    _wavePlayer.Init(_audioFileReader);
+                    _wavePlayer.Play();
+
+                    // Update UI
+                    Dispatcher.Invoke(() =>
+                    {
+                        NowPlayingTextBlock.Text = $"Now Playing: {song.SongTitle} by {song.ArtistName}";
+                        SongInfoTextBlock.Text = $"{song.SongTitle} - {song.ArtistName}";
+                    });
+                }
+                else
+                {
+                    MessageBox.Show("Failed to retrieve the song.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while trying to play the song: {ex.Message}");
+            }
+        }
+
+        private async Task PlayNextSong()
+        {
+            Song nextSong = _queueService.PlayNextSong();
+            if (nextSong != null)
+            {
+                await PlaySong(nextSong);
+            }
+            else
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    NowPlayingTextBlock.Text = "Queue is empty.";
+                    _wavePlayer?.Stop();  // Stop player if queue is empty
+                });
+            }
+        }
+
+        private async void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SongsDataGrid.SelectedItem is Song selectedSong)
+            {
+                await PlaySong(selectedSong);
+            }
+            else
+            {
+                MessageBox.Show("Please select a song to play.");
+            }
+        }
+
+        private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var playPauseButtonTemplate = PlayPauseButton.Template;
+
+            var playPauseTextBlock = (TextBlock)playPauseButtonTemplate.FindName("PlayPauseTextBlock", PlayPauseButton);
+
+            if (_wavePlayer?.PlaybackState == PlaybackState.Playing)
+            {
+                _wavePlayer.Pause();
+                playPauseTextBlock.Text = "▶️"; // Change icon to play
+            }
+            else if (_wavePlayer?.PlaybackState == PlaybackState.Paused)
+            {
+                _wavePlayer.Play();
+                playPauseTextBlock.Text = "⏸️"; // Change icon to pause
+            }
+            else
+            {
+                MessageBox.Show("No song is currently loaded.");
+            }
+        }
+
+
+
+        private void OnWavePlayerPlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            // Play the next song in the queue
+            Dispatcher.Invoke(async () => await PlayNextSong());
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (_audioFileReader != null)
+            {
+                _totalDuration = _audioFileReader.TotalTime;
+                SongProgressBar.Maximum = _totalDuration.TotalSeconds;
+                SongProgressBar.Value = _audioFileReader.CurrentTime.TotalSeconds;
+
+                CurrentTimeTextBlock.Text = _audioFileReader.CurrentTime.ToString(@"mm\:ss");
+
+                TimeSpan timeRemaining = _totalDuration - _audioFileReader.CurrentTime;
+                TotalTimeTextBlock.Text = timeRemaining.ToString(@"mm\:ss");
+            }
+        }
+
     }
 }
