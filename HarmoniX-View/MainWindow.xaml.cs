@@ -436,6 +436,7 @@ namespace HarmoniX_View
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             LoginForm loginForm = new LoginForm();
+            StopCurrentSong();
             loginForm.Show();
             this.Close();
         }
