@@ -28,5 +28,15 @@ namespace HarmoniX_View
         {
             this.Close();
         }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (PlaylistNameTextBox.Text == null || PlaylistDescriptionTextBox.Text== null)
+            {
+                MessageBox.Show("Please fill Playlist Name & Playlist Description !", "Save Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+        }
     }
 }
