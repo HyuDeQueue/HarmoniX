@@ -98,7 +98,7 @@ namespace HarmoniX_View
 
         private void btnCreatePlaylist_Click(object sender, RoutedEventArgs e)
         {
-            CreatePlaylist createPlaylist = new CreatePlaylist();
+            CreatePlaylist createPlaylist = new CreatePlaylist(_account);
             createPlaylist.Show();
         }
 
