@@ -26,6 +26,7 @@ namespace HarmoniX_View
         private CategoryService categoryService = new();
         public Song SelectedSong { get; set; } = null;
         public event Action OnSongDetailClosed;
+        private SongService _songService = new();
 
         public AddSongDetail(Account account)
         {
@@ -118,8 +119,42 @@ namespace HarmoniX_View
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            try
+            {
+                if (string.IsNullOrEmpty(SongNameTextBox.Text) || string.IsNullOrEmpty(AuthorTextBox.Text) || string.IsNullOrEmpty(fileName))
+                {
+                    MessageBox.Show("Please fill in all song details and select a file.", "Incomplete Information", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Show the loading spinner
+                LoadingSpinner.Visibility = Visibility.Visible;
+
+                var newSong = new Song
+                {
+                    SongTitle = SongNameTextBox.Text,
+                    ArtistName = AuthorTextBox.Text,
+                    CategoryId = (int)SongCategoryIdComboBox.SelectedValue,
+                    AccountId = 1
+                };
+
+                await _songService.UploadSongAsync(newSong, fileName);
+
+                ClearForm();
+
+                MessageBox.Show("Song saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while saving the song: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                LoadingSpinner.Visibility = Visibility.Collapsed;
+            }
         }
+
+
 
 
 

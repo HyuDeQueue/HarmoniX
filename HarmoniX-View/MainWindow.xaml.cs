@@ -12,15 +12,12 @@ namespace HarmoniX_View
         private readonly Account _account;
         private IWavePlayer _wavePlayer;
         private AudioFileReader _audioFileReader;
-        private SongService _songService;
+        private SongService _songService = new();
         public event Action OnSongDetailClosed;
 
         public MainWindow()
         {
             InitializeComponent();
-            _songService = new SongService(
-                new HarmoniX_Controller.Controllers.S3Controller(),  // No arguments needed
-                new HarmoniX_Repository.Repositories.SongRepository());
             LoadSongs();
         }
 

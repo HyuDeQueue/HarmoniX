@@ -13,18 +13,14 @@ namespace HarmoniX_Service.Services
     {
         //private SongRepository _repo = new();
 
-        private readonly S3Controller _s3Controller;
-        private readonly SongRepository _songRepository;
+        private readonly S3Controller _s3Controller = new();
+        private readonly SongRepository _songRepository = new();
 
-        public SongService(S3Controller s3Controller, SongRepository songRepository)
-        {
-            _s3Controller = s3Controller;
-            _songRepository = songRepository;
-        }
+        public SongService() { }
 
         public async Task UploadSongAsync(Song song, string filePath)
         {
-            var key = $"{song.SongTitle}-{Guid.NewGuid()}.mp3";
+            string key = $"{song.SongTitle}-{Guid.NewGuid()}.mp3";
 
             using (var fileStream = File.OpenRead(filePath))
             {
@@ -32,12 +28,10 @@ namespace HarmoniX_Service.Services
             }
 
             song.SongMedia = key;
-            song.SongTitle = "a";
-            song.ArtistName = "b";
             song.AccountId = 1;
-            song.CategoryId = 1;
 
             await _songRepository.CreateSongAsync(song);
+            return;
         }
 
         public async Task<Stream> GetSongStreamAsync(string songMedia)
