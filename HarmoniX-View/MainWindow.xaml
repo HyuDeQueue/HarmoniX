@@ -129,8 +129,109 @@
 
                         <DataGrid x:Name="QueueDataGrid" ItemsSource="{Binding SongQueue}" AutoGenerateColumns="False" IsReadOnly="True" Margin="-14,0,5,0">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Title" Binding="{Binding SongTitle}" />
-                                <DataGridTextColumn Header="Artist" Binding="{Binding ArtistName}" />
+                                <DataGridTextColumn Header="Title" Width="90" Binding="{Binding SongTitle}" />
+                                <DataGridTextColumn Header="Artist" Width="90" Binding="{Binding ArtistName}" />
+                                <DataGridTemplateColumn Header="Action" Width="110">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <UniformGrid Columns="3" HorizontalAlignment="Center">
+                                                <!-- Up Button -->
+                                                <Button Content="↑" Tag="{Binding}" Width="20" Height="20">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Background" Value="#36E0E0"/>
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                            <Setter Property="Padding" Value="15"/>
+                                                            <Setter Property="FontSize" Value="15"/>
+                                                            <Setter Property="BorderThickness" Value="1"/>
+                                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="Button">
+                                                                        <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                        <ControlTemplate.Triggers>
+                                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                                <Setter Property="Background" Value="MediumAquamarine"/>
+                                                                            </Trigger>
+                                                                            <Trigger Property="IsPressed" Value="True">
+                                                                                <Setter Property="Background" Value="#388E3C"/>
+                                                                            </Trigger>
+                                                                        </ControlTemplate.Triggers>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                                <!-- Down Button -->
+                                                <Button Content="↓" Tag="{Binding}" Width="20" Height="20">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Background" Value="#1DB954"/>
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                            <Setter Property="Padding" Value="15"/>
+                                                            <Setter Property="FontSize" Value="15"/>
+                                                            <Setter Property="BorderThickness" Value="1"/>
+                                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="Button">
+                                                                        <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                        <ControlTemplate.Triggers>
+                                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                                <Setter Property="Background" Value="MediumAquamarine"/>
+                                                                            </Trigger>
+                                                                            <Trigger Property="IsPressed" Value="True">
+                                                                                <Setter Property="Background" Value="#388E3C"/>
+                                                                            </Trigger>
+                                                                        </ControlTemplate.Triggers>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                                <!-- Remove Button -->
+                                                <Button Content="X" Tag="{Binding}" Width="20" Height="20">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Background" Value="#D32F2F"/>
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                            <Setter Property="Padding" Value="15"/>
+                                                            <Setter Property="FontSize" Value="15"/>
+                                                            <Setter Property="BorderThickness" Value="1"/>
+                                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="Button">
+                                                                        <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                        <ControlTemplate.Triggers>
+                                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                                <Setter Property="Background" Value="MediumAquamarine"/>
+                                                                            </Trigger>
+                                                                            <Trigger Property="IsPressed" Value="True">
+                                                                                <Setter Property="Background" Value="#388E3C"/>
+                                                                            </Trigger>
+                                                                        </ControlTemplate.Triggers>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </UniformGrid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                         <DataGrid x:Name="SongsDataGrid" Grid.Column="1" Width="272" Height="200" AutoGenerateColumns="False" IsReadOnly="true">
