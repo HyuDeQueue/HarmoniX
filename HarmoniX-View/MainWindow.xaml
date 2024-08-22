@@ -66,8 +66,8 @@
                         </ToggleButton>
                         <Popup PlacementTarget="{Binding ElementName=btnSong}" IsOpen="{Binding IsChecked, ElementName=btnSong}" StaysOpen="False">
                             <StackPanel Background="#1B1448" Margin="0,5,0,0">
-                                <Button Content="Your Song" Style="{StaticResource SubMenuButtonStyle}"/>
-                                <Button Content="All Songs" Style="{StaticResource SubMenuButtonStyle}"/>
+                                <Button Content="Your Song" Style="{StaticResource SubMenuButtonStyle}" Click="YourSongs_Click" />
+                                <Button Content="All Songs" Style="{StaticResource SubMenuButtonStyle}" Click="AllSongs_Click"/>
                                 <Button Click="BrowseButton_Click" Content="Add Songs" Style="{StaticResource SubMenuButtonStyle}"/>
                             </StackPanel>
                         </Popup>
@@ -100,7 +100,7 @@
                         <TextBox x:Name="SongNameTextBox" Height="26" Width="164" Margin="0,0,10,0"  TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Montserrat" FontSize="12" Foreground="Black" Background="White" BorderBrush="#462AD8" BorderThickness="2" Padding="5" />
                         <Label Content="Artist name" Foreground="White" Height="30" Width="75"/>
                         <TextBox x:Name="ArtistNameTextBox" Height="26" Width="192" Margin="0,0,10,0"  TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Montserrat" FontSize="12" Foreground="Black" Background="White" BorderBrush="#462AD8" BorderThickness="2" Padding="5" />
-                        <Button x:Name="SearchButton" Content="Search" Height="50" Width="220" FontFamily="Montserrat" FontSize="12" BorderThickness="0" Foreground="White">
+                        <Button x:Name="SearchButton" Content="Search" Height="50" Width="220" FontFamily="Montserrat" FontSize="12" BorderThickness="0" Foreground="White" Background="#462AD8" Click="SearchButton_Click">
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
                                     <Border x:Name="BorderElement" Width="150" Height="40" CornerRadius="20" Background="{TemplateBinding Background}">
@@ -113,9 +113,6 @@
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Button.Template>
-                            <Button.Background>
-                                <SolidColorBrush Color="#462AD8"/>
-                            </Button.Background>
                         </Button>
                     </StackPanel>
 

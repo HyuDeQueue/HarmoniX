@@ -333,6 +333,45 @@ namespace HarmoniX_View
                 UpdateQueueDataGrid();
             }
         }
+
+        private async void AllSongs_Click(object sender, RoutedEventArgs e)
+        {
+            var songs = await _songService.GetAllSongsAsync();
+            SongsDataGrid.ItemsSource = null;
+            SongsDataGrid.ItemsSource = songs;
+        }
+
+        private async void YourSongs_Click(object sender, RoutedEventArgs e)
+        {
+            var songs = await _songService.GetSongsByIdAsync(_account.AccountId);
+            SongsDataGrid.ItemsSource = null;
+            SongsDataGrid.ItemsSource = songs;
+        }
+
+        private async void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string songTitle = SongNameTextBox.Text;
+                string artistName = ArtistNameTextBox.Text;
+
+                List<Song> searchResults = await _songService.SearchSongsAsync(songTitle, artistName);
+
+                if (searchResults.Any())
+                {
+                    SongsDataGrid.ItemsSource = null;
+                    SongsDataGrid.ItemsSource = searchResults;
+                }
+                else
+                {
+                    SongsDataGrid.ItemsSource = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while searching: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }
 
