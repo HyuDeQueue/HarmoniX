@@ -451,6 +451,13 @@ namespace HarmoniX_View
 
         }
 
+        private void StopMusicButton_Click(object sender, RoutedEventArgs e)
+        {
+            StopCurrentSong();
+            _queueService.ClearQueue();
+            QueueDataGrid.ItemsSource = null;
+        }
+
 
     }
 }

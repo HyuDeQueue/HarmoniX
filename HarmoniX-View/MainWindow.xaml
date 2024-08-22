@@ -443,6 +443,16 @@
             </Button.Template>
         </Button>
         <ListBox Name="AccountsListBox" Margin="465,332,173,130" SelectionChanged="AccountsListBox_SelectionChanged"/>
+        <Button HorizontalAlignment="Left" Margin="103,491,0,0" VerticalAlignment="Top" Height="32" Width="36" Click="StopMusicButton_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse Fill="Transparent" Width="50" Height="50"/>
+                        <TextBlock Text="⏹️" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
 
     </Grid>
 </Window>
