@@ -16,7 +16,7 @@ namespace HarmoniX_Repository.Repositories
         public async Task Create(Playlist playlist)
         {
             _context = new HarmonixDbContext();
-            _context.Playlists.Add(playlist);
+            await _context.Playlists.AddAsync(playlist);
             await _context.SaveChangesAsync();
         }
 
@@ -24,6 +24,11 @@ namespace HarmoniX_Repository.Repositories
         {
             _context = new();
             return await _context.Playlists.Include("Account").ToListAsync();
+        }
+        public async Task<List<Playlist>> GetAllByAccountId(int accountId)
+        {
+            _context = new();
+            return await _context.Playlists.Include("Account").Where(s => s.AccountId == accountId).ToListAsync();
         }
 
     }

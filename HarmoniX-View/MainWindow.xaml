@@ -75,8 +75,8 @@
                         <!-- Playlist Toggle Button -->
                         <Popup PlacementTarget="{Binding ElementName=btnPlaylist}" IsOpen="{Binding IsChecked, ElementName=btnPlaylist}" StaysOpen="False">
                             <StackPanel Background="#1B1448" Margin="0,5,0,0">
-                                <Button Content="Your Playlist" Style="{StaticResource SubMenuButtonStyle}"/>
-                                <Button Content="All Playlists" Style="{StaticResource SubMenuButtonStyle}"/>
+                                <Button Content="Your Playlist" Style="{StaticResource SubMenuButtonStyle}" Click="YourPlaylist_Click"/>
+                                <Button Content="All Playlists" Style="{StaticResource SubMenuButtonStyle}" Click="AllPlaylists_Click"/>
                                 <Button x:Name="btnCreatePlaylist" Content="Create Playlist" Style="{StaticResource SubMenuButtonStyle}" Click="btnCreatePlaylist_Click"/>
                             </StackPanel>
                         </Popup>
@@ -275,7 +275,7 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Playlist Name" Binding="{Binding PlaylistName}" />
                                 <DataGridTextColumn Header="Description" Binding="{Binding PlaylistDescription}" />
-                                <DataGridTextColumn Header="Account ID" Binding="{Binding AccountId}" />
+                                <DataGridTextColumn Header="Created By" Binding="{Binding Account.AccountId}" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
