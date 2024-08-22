@@ -21,6 +21,7 @@ namespace HarmoniX_Repository.Repositories
 
         public async Task UpdateSongAsync(Song song)
         {
+            _context = new();
             var existingSong = await _context.Songs
                 .FirstOrDefaultAsync(s => s.SongTitle == song.SongTitle);
 

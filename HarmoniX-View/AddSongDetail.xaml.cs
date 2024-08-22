@@ -137,8 +137,15 @@ namespace HarmoniX_View
                     AccountId = _account.AccountId
                 };
 
-                await _songService.UploadSongAsync(newSong, fileName);
-
+                //check save new song or save a updated song
+                if (SelectedSong == null)
+                {
+                    await _songService.UploadSongAsync(newSong, fileName);
+                }
+                else
+                {
+                    await _songService.UpdateSongAsync(newSong, fileName);
+                }
                 ClearForm();
 
                 MessageBox.Show("Song saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -153,10 +160,7 @@ namespace HarmoniX_View
             }
         }
 
-
-
-
-
+       
         private void ClearForm()
         {
             SongNameTextBox.Clear();
@@ -228,6 +232,9 @@ namespace HarmoniX_View
                 SongNameTextBox.Text = SelectedSong.SongTitle.ToString();
                 AuthorTextBox.Text = SelectedSong.ArtistName.ToString();
                 SongCategoryIdComboBox.SelectedValue = SelectedSong.CategoryId.ToString();
+                // Hiển thị tên tệp bài hát trong ô Add Song
+                FileName.Text = System.IO.Path.GetFileName(SelectedSong.SongMedia);
+                fileName = SelectedSong.SongMedia; // Thiết lập đường dẫn tệp cho quá trình cập nhật
             }
         }
     }

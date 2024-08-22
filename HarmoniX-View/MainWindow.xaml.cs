@@ -120,10 +120,22 @@ namespace HarmoniX_View
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             Song? selected = SongsDataGrid.SelectedItem as Song;
-            if (selected != null)
+            if (selected == null)
             {
-                
+                MessageBox.Show("Please select a song!", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
             }
+
+            if (selected.AccountId != _account.AccountId)
+            {
+                MessageBox.Show("You have no permission to do this action", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
+
+            AddSongDetail d = new AddSongDetail(_account);
+            d.SelectedSong = selected;
+            d.ShowDialog();
+            LoadSongs();
         }
     }
 }
