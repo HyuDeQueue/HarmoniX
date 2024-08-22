@@ -25,6 +25,11 @@ namespace HarmoniX_Repository.Repositories
             _context = new();
             return await _context.Playlists.Include("Account").ToListAsync();
         }
+        public async Task<List<Playlist>> GetAllByAccountId(int accountId)
+        {
+            _context = new();
+            return await _context.Playlists.Include("Account").Where(s => s.AccountId == accountId).ToListAsync();
+        }
 
     }
 }

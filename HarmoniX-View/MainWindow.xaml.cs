@@ -357,6 +357,18 @@ namespace HarmoniX_View
             SongsDataGrid.ItemsSource = null;
             SongsDataGrid.ItemsSource = songs;
         }
+        private async void AllPlaylists_Click(object sender, RoutedEventArgs e)
+        {
+            var playlists = await _playlistService.GetAllPlaylist();
+            PlaylistDataGrid.ItemsSource = null;
+            PlaylistDataGrid.ItemsSource = playlists;
+        }
+        private async void YourPlaylist_Click(object sender, RoutedEventArgs e)
+        {
+            var playlists = await _playlistService.GetPlaylistByAccountId(_account.AccountId);
+            PlaylistDataGrid.ItemsSource = null;
+            PlaylistDataGrid.ItemsSource = playlists;
+        }
 
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {

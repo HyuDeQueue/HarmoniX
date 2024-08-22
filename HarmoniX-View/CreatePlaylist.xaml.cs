@@ -42,25 +42,33 @@ namespace HarmoniX_View
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+            // Confirmation Dialog
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to create this playlist?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
             {
-                if (PlaylistNameTextBox.Text == null || PlaylistDescriptionTextBox.Text == null)
+                try
                 {
-                    MessageBox.Show("Please fill Playlist Name & Playlist Description !", "Save Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    if (string.IsNullOrWhiteSpace(PlaylistNameTextBox.Text) || string.IsNullOrWhiteSpace(PlaylistDescriptionTextBox.Text))
+                    {
+                        MessageBox.Show("Please fill Playlist Name & Playlist Description!", "Save Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    Playlist playlist = new Playlist
+                    {
+                        PlaylistName = PlaylistNameTextBox.Text,
+                        PlaylistDescription = PlaylistDescriptionTextBox.Text,
+                        AccountId = _account.AccountId
+                    };
+                    await _playlistService.CreatePlayList(playlist);
+
+                    MessageBox.Show("Playlist created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                Playlist playlist = new Playlist
+                catch (Exception ex)
                 {
-                    PlaylistName = PlaylistNameTextBox.Text,
-                    PlaylistDescription = PlaylistDescriptionTextBox.Text,
-                    AccountId = _account.AccountId
-                };
-                await _playlistService.CreatePlayList(playlist);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred while saving the playlist: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"An error occurred while saving the playlist: {ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
+
     }
 }
