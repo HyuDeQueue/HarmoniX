@@ -21,6 +21,12 @@ namespace HarmoniX_Service.Services
         {
             return await _repo.GetSongsByPlaylistIdAsync(playlistId);
         }
+
+        public async Task RemovePlaylistSong(Playlistssong playlistsong)
+        {
+            await _repo.Remove(playlistsong);
+        }
+
     }
-    
+
 }

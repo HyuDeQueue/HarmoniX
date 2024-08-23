@@ -441,10 +441,7 @@ namespace HarmoniX_View
             this.Close();
         }
 
-        private void AddPlaylistToQueueButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
+
 
         private void UpdatePlaylistButton_Click(object sender, RoutedEventArgs e)
         {
@@ -467,6 +464,33 @@ namespace HarmoniX_View
             _queueService.ClearQueue();
             QueueDataGrid.ItemsSource = null;
         }
+        private async void AddPlaylistToQueueButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+
+            var playlist = button?.DataContext as Playlist; 
+
+            if (playlist == null)
+            {
+                MessageBox.Show("Please select a playlist first.");
+                return;
+            }
+
+            var songs = await _playlistService.GetSongsByPlaylistId(playlist.PlaylistId);
+
+            foreach (var song in songs)
+            {
+                _queueService.AddSongToQueue(song);
+            }
+
+            if (!_queueService.IsPlaying)
+            {
+                await PlayNextSong();
+            }
+
+            UpdateQueueDataGrid();
+        }
+
 
 
     }

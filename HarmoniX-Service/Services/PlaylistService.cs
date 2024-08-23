@@ -25,5 +25,10 @@ namespace HarmoniX_Service.Services
         {
             return await _repo.GetAllByAccountId(accountId);
         }
+
+        public async Task<List<Song>> GetSongsByPlaylistId(int playlistId)
+        {
+            return await _repo.GetSongsByPlaylistId(playlistId);
+        }
     }
 }

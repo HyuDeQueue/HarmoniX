@@ -43,9 +43,20 @@ namespace HarmoniX_Repository.Repositories
 
             return songs;
         }
+        public async Task Remove(Playlistssong playlistsong)
+        {
+            var existingEntry = await _context.Playlistssongs
+                .FirstOrDefaultAsync(ps => ps.SongId == playlistsong.SongId && ps.PlaylistId == playlistsong.PlaylistId);
+
+            if (existingEntry != null)
+            {
+                _context.Playlistssongs.Remove(existingEntry);
+                await _context.SaveChangesAsync();
+            }
+        }
 
     }
 
-    
+
 
 }

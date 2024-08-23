@@ -37,23 +37,76 @@ namespace HarmoniX_View
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
-        }
-
-        private void SubtractBtn_Click(object sender, RoutedEventArgs e)
-        {
-
+            this.Close();
         }
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
+            var selectedSong = (Song)SongsDataGrid.SelectedItem;
 
+            if (selectedSong != null)
+            {
+                var currentPlaylistSongs = (List<Song>)PlaylistSongDataGrid.ItemsSource ?? new List<Song>();
+
+                if (!currentPlaylistSongs.Any(s => s.SongId == selectedSong.SongId))
+                {
+                    currentPlaylistSongs.Add(selectedSong);
+                    PlaylistSongDataGrid.ItemsSource = null;
+                    PlaylistSongDataGrid.ItemsSource = currentPlaylistSongs;
+                }
+            }
         }
 
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        private void SubtractBtn_Click(object sender, RoutedEventArgs e)
         {
+            var selectedSong = (Song)PlaylistSongDataGrid.SelectedItem;
 
+            if (selectedSong != null)
+            {
+                var currentPlaylistSongs = (List<Song>)PlaylistSongDataGrid.ItemsSource;
+
+                currentPlaylistSongs.Remove(selectedSong);
+                PlaylistSongDataGrid.ItemsSource = null; 
+                PlaylistSongDataGrid.ItemsSource = currentPlaylistSongs;
+            }
         }
+
+        private async void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            var currentPlaylistSongs = (List<Song>)PlaylistSongDataGrid.ItemsSource;
+
+            if (currentPlaylistSongs != null && currentPlaylistSongs.Count > 0)
+            {
+                var existingSongs = await _playlistssongService.GetSongsByPlaylistIdAsync(_playlist.PlaylistId);
+                foreach (var song in existingSongs)
+                {
+                    var playlistssongToRemove = new Playlistssong
+                    {
+                        PlaylistId = _playlist.PlaylistId,
+                        SongId = song.SongId
+                    };
+                    await _playlistssongService.RemovePlaylistSong(playlistssongToRemove);
+                }
+
+                foreach (var song in currentPlaylistSongs)
+                {
+                    var playlistssong = new Playlistssong
+                    {
+                        PlaylistId = _playlist.PlaylistId,
+                        SongId = song.SongId,
+                        Position = currentPlaylistSongs.IndexOf(song) + 1                     };
+
+                    await _playlistssongService.CreatePlayListSong(playlistssong);
+                }
+
+                MessageBox.Show("Playlist updated successfully!");
+            }
+            else
+            {
+                MessageBox.Show("Please add at least one song to the playlist.");
+            }
+        }
+
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
