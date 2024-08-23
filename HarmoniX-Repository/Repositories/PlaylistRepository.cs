@@ -35,6 +35,7 @@ namespace HarmoniX_Repository.Repositories
         {
             return await _context.Playlistssongs
                                  .Where(ps => ps.PlaylistId == playlistId)
+                                 .OrderBy(ps => ps.Position)
                                  .Include(ps => ps.Song)
                                  .Select(ps => ps.Song)
                                  .ToListAsync();
