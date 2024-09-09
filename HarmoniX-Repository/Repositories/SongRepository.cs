@@ -1,22 +1,17 @@
 ﻿using HarmoniX_Repository.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HarmoniX_Repository.Repositories
 {
     public class SongRepository
     {
-         private HarmonixDbContext _context;
+        private HarmonixDbContext _context;
 
         public async Task CreateSongAsync(Song song)
         {
             _context = new();
-                _context.Songs.Add(song);
-                await _context.SaveChangesAsync();
+            _context.Songs.Add(song);
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateSongAsync(Song song)
@@ -40,20 +35,12 @@ namespace HarmoniX_Repository.Repositories
             }
         }
 
-
         public async Task<Song> GetSongAsync(string songMedia)
         {
             _context = new();
             return await _context.Songs
                 .FirstOrDefaultAsync(s => s.SongMedia == songMedia);
         }
-
-        public async Task<List<Song>> GetAllSongsAsync()
-        {
-            _context = new();
-            return await _context.Songs.ToListAsync();
-        }
-
         public async Task<List<Song>> GetSongsByAccountIdAsync(int accountId)
         {
             _context = new();

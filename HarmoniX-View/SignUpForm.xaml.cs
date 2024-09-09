@@ -1,8 +1,6 @@
 ﻿using HarmoniX_Repository.Models;
 using HarmoniX_Service.Services;
-using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace HarmoniX_View
@@ -102,7 +100,7 @@ namespace HarmoniX_View
 
                 LoginForm loginForm = new LoginForm();
                 loginForm.Show();
-                this.Close();
+                Close();
             }
             catch (Exception ex)
             {
@@ -124,7 +122,7 @@ namespace HarmoniX_View
         {
             LoginForm loginForm = new LoginForm();
             loginForm.Show();
-            this.Close();
+            Close();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

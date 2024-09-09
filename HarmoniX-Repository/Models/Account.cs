@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace HarmoniX_Repository.Models;
+﻿namespace HarmoniX_Repository.Models;
 
 public partial class Account
 {
