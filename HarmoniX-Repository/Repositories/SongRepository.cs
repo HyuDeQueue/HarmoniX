@@ -40,6 +40,27 @@ namespace HarmoniX_Repository.Repositories
             }
         }
 
+
+        //{
+        //    _context = new();
+        //    var existingSong = await _context.Songs
+        //        .FirstOrDefaultAsync(s => s.SongTitle == song.SongTitle);
+
+        //    if (existingSong != null)
+        //    {
+        //        existingSong.ArtistName = song.ArtistName;
+        //        existingSong.SongMedia = song.SongMedia;
+        //        existingSong.CategoryId = song.CategoryId;
+        //        existingSong.AccountId = song.AccountId;
+        //    }
+        //    else
+        //    {
+        //        _context.Songs.Add(song);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //}
+
         public async Task<Song> GetSongAsync(string songMedia)
         {
             _context = new();

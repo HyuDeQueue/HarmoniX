@@ -32,7 +32,15 @@
             </Border.Background>
             <Border CornerRadius="10"                    
                     BorderThickness="2"
-                    Opacity="0.95" Margin="0,0,-14,0">
+                    Opacity="0.95" Margin="0,0,-14,0" RenderTransformOrigin="0.5,0.5">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="-0.171"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="-1.197"/>
+                    </TransformGroup>
+                </Border.RenderTransform>
                 <Border.BorderBrush>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                         <GradientStop Color="#462AD8" Offset="0"/>
@@ -99,7 +107,7 @@
                         <Label Content="Song name" Foreground="White" Height="30" Width="75"/>
                         <TextBox x:Name="SongNameTextBox" Height="26" Width="164" Margin="0,0,10,0"  TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Montserrat" FontSize="12" Foreground="Black" Background="White" BorderBrush="#462AD8" BorderThickness="2" Padding="5" />
                         <Label Content="Artist name" Foreground="White" Height="30" Width="75"/>
-                        <TextBox x:Name="ArtistNameTextBox" Height="26" Width="192" Margin="0,0,10,0"  TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Montserrat" FontSize="12" Foreground="Black" Background="White" BorderBrush="#462AD8" BorderThickness="2" Padding="5" />
+                        <TextBox x:Name="ArtistNameTextBox" Height="26" Width="192"  TextWrapping="Wrap" FontFamily="Montserrat" FontSize="12" Foreground="Black" Background="White" BorderBrush="#462AD8" BorderThickness="2" Padding="5" />
                         <Button x:Name="SearchButton" Content="Search" Height="50" Width="220" FontFamily="Montserrat" FontSize="12" BorderThickness="0" Foreground="White" Background="#462AD8" Click="SearchButton_Click">
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
@@ -124,7 +132,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <DataGrid x:Name="QueueDataGrid" ItemsSource="{Binding SongQueue}" AutoGenerateColumns="False" IsReadOnly="True" Margin="-14,0,5,0">
+                        <DataGrid x:Name="QueueDataGrid" ItemsSource="{Binding SongQueue}" AutoGenerateColumns="False" IsReadOnly="True" Margin="-14,0,5,0" Height="200">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Title" Width="90" Binding="{Binding SongTitle}" />
                                 <DataGridTextColumn Header="Artist" Width="90" Binding="{Binding ArtistName}" />
@@ -231,7 +239,7 @@
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <DataGrid x:Name="SongsDataGrid" Grid.Column="1" Width="272" Height="200" AutoGenerateColumns="False" IsReadOnly="true">
+                        <DataGrid x:Name="SongsDataGrid" Grid.Column="1" Width="272" Height="200" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="true">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="Queue">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -271,11 +279,43 @@
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <DataGrid x:Name="PlaylistDataGrid" Grid.Column="2" Height="200" AutoGenerateColumns="False" Margin="5,0,-12,0">
+                        <DataGrid x:Name="PlaylistDataGrid" Grid.Column="2" Height="200" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" Margin="5,0,-12,0">
                             <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Queue">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Width="25" Height="25" Click="AddPlaylistToQueueButton_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Grid>
+                                                            <Ellipse Fill="White" Stroke="Black" StrokeThickness="1" />
+                                                            <TextBlock Text="+" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Playlist Name" Binding="{Binding PlaylistName}" />
                                 <DataGridTextColumn Header="Description" Binding="{Binding PlaylistDescription}" />
-                                <DataGridTextColumn Header="Created By" Binding="{Binding Account.AccountId}" />
+                                <DataGridTextColumn Header="Created By" Binding="{Binding Account.DisplayName}" />
+                                <DataGridTemplateColumn Header="Update">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Width="25" Height="25" Click="UpdatePlaylistButton_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Grid>
+                                                            <Ellipse Fill="White" Stroke="Black" StrokeThickness="1" />
+                                                            <TextBlock Text="⚙️" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
@@ -371,5 +411,48 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+        <Button x:Name="Close" Content="Logout" FontSize="16" Foreground="White" BorderBrush="Transparent" Click="Close_Click" RenderTransformOrigin="0.5,0.5" Margin="614,470,-1,26">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.361"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#D32F2F"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="FontFamily" Value="Montserrat"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF5A5A"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Width="150" Height="40" CornerRadius="20" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <ListBox Name="AccountsListBox" Margin="465,332,173,130" SelectionChanged="AccountsListBox_SelectionChanged"/>
+        <Button HorizontalAlignment="Left" Margin="103,491,0,0" VerticalAlignment="Top" Height="32" Width="36" Click="StopMusicButton_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse Fill="Transparent" Width="50" Height="50"/>
+                        <TextBlock Text="⏹️" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
     </Grid>
 </Window>

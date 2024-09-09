@@ -99,6 +99,7 @@ namespace HarmoniX_View
             Application.Current.Shutdown();
         }
 
+
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

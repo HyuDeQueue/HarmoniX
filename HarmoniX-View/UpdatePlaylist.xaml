@@ -1,0 +1,167 @@
+﻿<Window x:Class="HarmoniX_View.UpdatePlaylist"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HarmoniX_View"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Title="UpdatePlaylist" Height="424" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" Background="Transparent" AllowsTransparency="True">
+    <Window.Resources>
+        <!-- SubMenuButtonStyle -->
+        <Style x:Key="SubMenuButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#1B1448"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Montserrat"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#462AD8"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="0,0,10,10">
+        <Border CornerRadius="20">
+            <Border.Background>
+                <ImageBrush ImageSource="/assets/back-image.jpg"
+                        Stretch="None"/>
+            </Border.Background>
+            <Border CornerRadius="10"                    
+                BorderThickness="2"
+                Opacity="0.95" Margin="0,0,-14,0">
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#462AD8" Offset="0"/>
+                        <GradientStop Color="#DA34AE" Offset="0.75"/>
+                        <GradientStop Color="#8A16C1" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                        <GradientStop Color="#060531" Offset="0"/>
+                        <GradientStop Color="#1B1448" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <StackPanel Margin="20">
+                    <!-- Your Queue and Playlist Section -->
+                    <Grid Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <DataGrid x:Name="PlaylistSongDataGrid" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,132,10,-132">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Subtract">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Width="25" Height="25" Click="SubtractBtn_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Grid>
+                                                            <Ellipse Fill="White" Stroke="Black" StrokeThickness="1" />
+                                                            <TextBlock Text="-" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Title" Binding="{Binding SongTitle}" />
+                                <DataGridTextColumn Header="Artist" Binding="{Binding ArtistName}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <DataGrid x:Name="SongsDataGrid" Grid.Column="1" Height="200" AutoGenerateColumns="False" IsReadOnly="true" Grid.ColumnSpan="2" Margin="10,132,10,-132">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Add">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Width="25" Height="25" Click="AddBtn_Click">
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Grid>
+                                                            <Ellipse Fill="White" Stroke="Black" StrokeThickness="1" />
+                                                            <TextBlock Text="+" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Title" Binding="{Binding SongTitle}" />
+                                <DataGridTextColumn Header="Artist" Binding="{Binding ArtistName}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+        <Button Content="X" HorizontalAlignment="Left" Margin="752,21,0,0" VerticalAlignment="Top" x:Name="btnClose" BorderThickness="0" Foreground="White" FontSize="16" FontFamily="Montserrat" Cursor="Hand" Click="btnClose_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#DA34AE"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#C62DAE"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="18" Height="18"
+            CornerRadius="9"
+            Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center"
+                          HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="btnMinimize" BorderThickness="0" Content="-" Foreground="White" FontSize="16" FontFamily="Montserrat" Cursor="Hand" Click="btnMinimize_Click" HorizontalAlignment="Left" Margin="717,21,0,0" VerticalAlignment="Top">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#28AEED"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#278BEF"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="18" Height="18"
+            CornerRadius="9"
+            Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center"
+                          HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Label x:Name="SongLabel" Content="Update Playlist" HorizontalAlignment="Left" Margin="22,42,0,0" VerticalAlignment="Top" FontSize="36" FontWeight="Bold" Foreground="White" Height="58" Width="389"/>
+        <TextBlock Name="ThisPlaylist" TextWrapping="Wrap" Text="Playlist name: " HorizontalAlignment="Left" Margin="28,124,0,0" VerticalAlignment="Top" Foreground="White" Width="222" IsEnabled="False" Height="29" Background="Transparent" FontSize="20"/>
+        <Button x:Name="UpdateButton" Content="Update Playlist" Height="33" Width="150" FontFamily="Montserrat" FontSize="20" BorderThickness="0" Foreground="White" Background="#462AD8" Click="UpdateButton_Click" HorizontalAlignment="Left" Margin="412,124,0,0" VerticalAlignment="Top">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="BorderElement" Width="150" Height="33" CornerRadius="20" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BorderElement" Property="Background" Value="#28AEED"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</Window>
