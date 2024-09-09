@@ -1,11 +1,10 @@
 ﻿using HarmoniX_Repository.Models;
 using HarmoniX_Service.Services;
-using Microsoft.Win32;
-using System.Windows;
-using System.Windows.Input;
 using NAudio.Wave;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace HarmoniX_View
@@ -200,7 +199,7 @@ namespace HarmoniX_View
             Song nextSong = _queueService.PlayNextSong();
             if (nextSong != null)
             {
-                _isPlaying = true; 
+                _isPlaying = true;
                 await PlaySong(nextSong);
             }
             else
@@ -244,7 +243,7 @@ namespace HarmoniX_View
             else if (_wavePlayer?.PlaybackState == PlaybackState.Paused)
             {
                 _wavePlayer.Play();
-                playPauseTextBlock.Text = "⏸️"; 
+                playPauseTextBlock.Text = "⏸️";
             }
             else
             {
@@ -438,7 +437,7 @@ namespace HarmoniX_View
             LoginForm loginForm = new LoginForm();
             StopCurrentSong();
             loginForm.Show();
-            this.Close();
+            Close();
         }
 
 
@@ -468,7 +467,7 @@ namespace HarmoniX_View
         {
             var button = sender as Button;
 
-            var playlist = button?.DataContext as Playlist; 
+            var playlist = button?.DataContext as Playlist;
 
             if (playlist == null)
             {
