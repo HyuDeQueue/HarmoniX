@@ -1,4 +1,6 @@
-﻿using HarmoniX_Repository.Models;
+﻿using HarmoniX_Controller.Controllers;
+using HarmoniX_Repository.Models;
+using HarmoniX_Repository.Repositories;
 using HarmoniX_Service.Services;
 using Microsoft.Win32;
 using NAudio.Wave;
@@ -125,8 +127,7 @@ namespace HarmoniX_View
                     {
                         MessageBox.Show("Please fill in all song details and select a file.", "Incomplete Information", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
-                    }
-                    else if (SelectedSong != null)
+                    } else if (SelectedSong != null)
                     {
                         MessageBox.Show("Please fill in all song details.", "Incomplete Information", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
@@ -156,9 +157,9 @@ namespace HarmoniX_View
                     newSong.SongMedia = SelectedSong.SongMedia;
                     await _songService.UpdateSongAsync(newSong);
                     MessageBox.Show("Song updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Close();
+                    this.Close();
                 }
-
+                
             }
             catch (Exception ex)
             {
@@ -170,7 +171,7 @@ namespace HarmoniX_View
             }
         }
 
-
+       
         private void ClearForm()
         {
             SongNameTextBox.Clear();
@@ -208,7 +209,7 @@ namespace HarmoniX_View
             audioFile?.Dispose();
             outputDevice?.Dispose();
 
-            Close();
+            this.Close();
         }
 
         protected override void OnClosed(EventArgs e)
@@ -263,7 +264,7 @@ namespace HarmoniX_View
                     };
 
                     await categoryService.AddCategory(newCategory);
-
+                    
 
                     MessageBox.Show("Category created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 

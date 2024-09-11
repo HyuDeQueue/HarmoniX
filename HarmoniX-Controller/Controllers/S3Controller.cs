@@ -1,6 +1,9 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace HarmoniX_Controller.Controllers
 {
@@ -12,7 +15,7 @@ namespace HarmoniX_Controller.Controllers
         public S3Controller()
         {
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory) 
                 .AddJsonFile("s3bucketkeys.json", optional: false, reloadOnChange: true)
                 .Build();
 

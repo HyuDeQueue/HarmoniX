@@ -1,6 +1,18 @@
-﻿using HarmoniX_Repository.Models;
-using HarmoniX_Service.Services;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using HarmoniX_Repository.Models;
+using HarmoniX_Service.Services;
 
 namespace HarmoniX_View
 {
@@ -26,7 +38,7 @@ namespace HarmoniX_View
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            this.Close();
         }
 
 
@@ -59,7 +71,7 @@ namespace HarmoniX_View
             {
                 MessageBox.Show($"An error occurred while saving the playlist: {ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            Close();
+            this.Close();
         }
 
 

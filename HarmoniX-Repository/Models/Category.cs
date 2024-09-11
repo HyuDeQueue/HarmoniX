@@ -1,4 +1,7 @@
-﻿namespace HarmoniX_Repository.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace HarmoniX_Repository.Models;
 
 public partial class Category
 {

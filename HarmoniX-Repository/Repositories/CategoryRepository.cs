@@ -1,5 +1,10 @@
 ﻿using HarmoniX_Repository.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HarmoniX_Repository.Repositories
 {
@@ -16,7 +21,7 @@ namespace HarmoniX_Repository.Repositories
         public async Task AddCategory(Category category)
         {
             _context = new();
-            await _context.Categories.AddAsync(category);
+            _context.Categories.Add(category);
             await _context.SaveChangesAsync();
         }
     }
