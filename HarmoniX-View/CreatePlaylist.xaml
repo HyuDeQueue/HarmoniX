@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HarmoniX_View"
         mc:Ignorable="d"
+        Icon="assets/icon.ico"
         Title="CreatePlaylist" Height="405" Width="800" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Background="Transparent">
 
     <Window.Resources>

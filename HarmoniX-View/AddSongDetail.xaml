@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HarmoniX_View"
         mc:Ignorable="d"
+        Icon="assets/icon.ico"
         Title="AddSongDetail" Height="621" Width="830" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" WindowStyle="None" Background="Transparent" AllowsTransparency="True">
     <Window.Resources>
         <!-- SubMenuButtonStyle -->

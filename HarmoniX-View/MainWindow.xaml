@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HarmoniX_View"
         mc:Ignorable="d"
+        Icon="assets/icon.ico"
         Title="MainWindow" Height="546" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" MouseDown="Window_MouseDown" Background="Transparent" AllowsTransparency="True">
     <Window.Resources>
         <!-- SubMenuButtonStyle -->

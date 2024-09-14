@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HarmoniX_View"
         mc:Ignorable="d"
+        Icon="assets/icon.ico"
         xmlns:mp="http://schemas.mpcoding.com/mpcoding/wpf/loadinganimation"
         Title="LoginForm" Height="550" Width="800" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" MouseDown="Window_MouseDown" Background="Transparent" AllowsTransparency="True">
     <Border CornerRadius="12">
