@@ -12,6 +12,7 @@
   <ItemGroup>
     <None Remove="assets\app-nghe-nhac-1.jpg" />
     <None Remove="assets\back-image.jpg" />
+    <None Remove="assets\icon.ico" />
     <None Remove="assets\key-icon.png" />
     <None Remove="assets\logo.png" />
     <None Remove="assets\user-icon.png" />
@@ -36,6 +37,7 @@
     <Resource Include="assets\back-image.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="assets\icon.ico" />
     <Resource Include="assets\key-icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
